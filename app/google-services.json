@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "366740692313",
+    "project_id": "liar-s-dice-da444",
+    "storage_bucket": "liar-s-dice-da444.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:366740692313:android:87a5aafa09bb300521c048",
+        "android_client_info": {
+          "package_name": "dk.au.mad22spring.app.project.liarsdice"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "366740692313-j8o871nqvpmdltvod3fo47eb7raioagr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "dk.au.mad22spring.app.project.liarsdice",
+            "certificate_hash": "880da3e056d9504bdd51b136dba8d981f977337e"
+          }
+        },
+        {
+          "client_id": "366740692313-2hm6fv069lam2sll3jd88bb3io0g1u79.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCq8oYvZe7slT-X_aNP3pHNInRLnLeNRGE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "366740692313-2hm6fv069lam2sll3jd88bb3io0g1u79.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
