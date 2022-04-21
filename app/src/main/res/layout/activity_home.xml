@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activities.HomeActivity">
+
+    <TextView
+        android:id="@+id/textHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="44dp"
+        android:text="@string/HomeHeader"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/HelperText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:text="@string/HomeHelperText"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textHeader" />
+
+    <EditText
+        android:id="@+id/editTextNumberField"
+        android:layout_width="257dp"
+        android:layout_height="58dp"
+        android:layout_marginTop="28dp"
+        android:ems="10"
+        android:hint="@string/HomeTextFieldHint"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="@+id/HelperText"
+        app:layout_constraintHorizontal_bias="0.505"
+        app:layout_constraintStart_toStartOf="@+id/HelperText"
+        app:layout_constraintTop_toBottomOf="@+id/HelperText" />
+
+    <Button
+        android:id="@+id/joinRoomButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="68dp"
+        android:text="@string/JoinRoom"
+        app:layout_constraintStart_toStartOf="@+id/textHeader"
+        app:layout_constraintTop_toBottomOf="@+id/editTextNumberField" />
+
+    <Button
+        android:id="@+id/createRoomButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/CreateRoom"
+        app:layout_constraintEnd_toEndOf="@+id/textHeader"
+        app:layout_constraintTop_toTopOf="@+id/joinRoomButton" />
+
+    <Button
+        android:id="@+id/seeProfileButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="52dp"
+        android:text="@string/SeeProfile"
+        app:layout_constraintEnd_toStartOf="@+id/createRoomButton"
+        app:layout_constraintHorizontal_bias="0.476"
+        app:layout_constraintStart_toEndOf="@+id/joinRoomButton"
+        app:layout_constraintTop_toBottomOf="@+id/createRoomButton" />
+
+    <Button
+        android:id="@+id/signOutButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/SignOutButton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/seeProfileButton"
+        app:layout_constraintStart_toStartOf="@+id/seeProfileButton"
+        app:layout_constraintTop_toBottomOf="@+id/seeProfileButton"
+        app:layout_constraintVertical_bias="0.704" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
