@@ -1,8 +1,10 @@
-package dk.au.mad22spring.app.project.liarsdice;
+package dk.au.mad22spring.app.project.liarsdice.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import dk.au.mad22spring.app.project.liarsdice.R;
 
 public class MainActivity extends AppCompatActivity {
 
