@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Snyd</string>
+    <string name="HomeHeader">Tilslut eller opret et rum</string>
+    <string name="HomeHelperText">Skriv et rum nummer</string>
+    <string name="HomeTextFieldHint">Rum nummer</string>
+    <string name="JoinRoom">Tilslut rum</string>
+    <string name="CreateRoom">Lav et rum</string>
+    <string name="SeeProfile">Se profil</string>
+    <string name="SignOutButton">Log ud</string>
 </resources>
