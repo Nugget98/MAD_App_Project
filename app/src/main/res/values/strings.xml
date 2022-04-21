@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Liar\'s dice</string>
+    <string name="HomeHeader">Join or create a room</string>
+    <string name="HomeHelperText">Enter room number</string>
+    <string name="HomeTextFieldHint">Room number</string>
+    <string name="JoinRoom">Join room</string>
+    <string name="CreateRoom">Create room</string>
+    <string name="SeeProfile">See profile</string>
+    <string name="SignOutButton">Sign out</string>
 </resources>
