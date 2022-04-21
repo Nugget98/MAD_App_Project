@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LiarsDice">
         <activity
+            android:name=".Activities.LoginActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activities.MainActivity"
             android:exported="true">
             <intent-filter>
