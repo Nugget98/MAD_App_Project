@@ -8,7 +8,7 @@
     <string name="SeeProfile">See profile</string>
     <string name="SignOutButton">Sign out</string>
     <string name="LoseRound">I lost the round</string>
-    <string name="RoleDice">Role dice here</string>
+    <string name="RollDice">Roll dice here</string>
     <string name="ShakeHelp">Shake the phone to role your dice</string>
     <string name="PlayersText">Players:</string>
     <string name="DiceLeft">Dice remaining:</string>
