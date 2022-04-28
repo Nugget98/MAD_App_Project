@@ -3,8 +3,16 @@
     <string name="HomeHeader">Join or create a room</string>
     <string name="HomeHelperText">Enter room number</string>
     <string name="HomeTextFieldHint">Room number</string>
+    <string name="ProfileHeader">Profile</string>
     <string name="JoinRoom">Join room</string>
     <string name="CreateRoom">Create room</string>
     <string name="SeeProfile">See profile</string>
     <string name="SignOutButton">Sign out</string>
+    <string name="ProfileDisplayName">Username:</string>
+    <string name="ProfileWins">Wins:</string>
+    <string name="ProfileLoses">Loses:</string>
+    <string name="ProfileTotalGames">Total games:</string>
+    <string name="ProfileHelperText">Username</string>
+    <string name="btnSave">Save</string>
+    <string name="btnCancel">Cancel</string>
 </resources>

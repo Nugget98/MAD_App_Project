@@ -4,8 +4,16 @@
     <string name="HomeHeader">Tilslut eller opret et rum</string>
     <string name="HomeHelperText">Skriv et rum nummer</string>
     <string name="HomeTextFieldHint">Rum nummer</string>
+    <string name="ProfileHeader">Profil</string>
     <string name="JoinRoom">Tilslut rum</string>
     <string name="CreateRoom">Lav et rum</string>
     <string name="SeeProfile">Se profil</string>
     <string name="SignOutButton">Log ud</string>
+    <string name="ProfileDisplayName">Brugernavn:</string>
+    <string name="ProfileWins">Vundet:</string>
+    <string name="ProfileLoses">Tabt:</string>
+    <string name="ProfileTotalGames">Antal spil:</string>
+    <string name="ProfileHelperText">Brugernavn</string>
+    <string name="btnSave">Gem</string>
+    <string name="btnCancel">Afbryd</string>
 </resources>
