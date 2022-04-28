@@ -3,15 +3,18 @@
     package="dk.au.mad22spring.app.project.liarsdice">
 
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
+        android:name=".LiarsDiceApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher_raffle_cup"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_raffle_cup_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.LiarsDice"
-        android:name=".LiarsDiceApplication">
-
+        android:theme="@style/Theme.LiarsDice">
+        <activity
+            android:name=".Activities.RoomActivity"
+            android:exported="false" />
         <activity
             android:name=".Activities.LoginActivity"
             android:exported="true">
@@ -23,8 +26,7 @@
         </activity>
         <activity
             android:name=".Activities.HomeActivity"
-            android:exported="false">
-        </activity>
+            android:exported="false"></activity>
     </application>
 
 </manifest>
