@@ -8,4 +8,11 @@
     <string name="CreateRoom">Lav et rum</string>
     <string name="SeeProfile">Se profil</string>
     <string name="SignOutButton">Log ud</string>
+    <string name="LoseRound">Jeg tabte runden</string>
+    <string name="RoleDice">Kast terningerne her</string>
+    <string name="ShakeHelp">Ryst mobilen for at kaste dine terninger</string>
+    <string name="PlayersText">Spillere:</string>
+    <string name="DiceLeft">Terninger tilbage:</string>
+    <string name="RoomNumber">Rum nummer:</string>
+    <string name="LeaveRoom">Forlad rum</string>
 </resources>
