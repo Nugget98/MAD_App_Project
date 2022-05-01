@@ -8,7 +8,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import com.google.firebase.database.ValueEventListener;
-import com.google.gson.Gson;
 
 import java.util.Random;
 
@@ -16,6 +15,7 @@ import dk.au.mad22spring.app.project.liarsdice.Models.Room;
 
 public class RealtimeDatabaseUtil {
 
+    public static final int NumberOfDice = 6;
     private static final String TAG = "RealtimeDatabaseUtil";
 
     private FirebaseDatabase realtimeDatabase = FirebaseDatabase.getInstance("https://liar-s-dice-da444-default-rtdb.europe-west1.firebasedatabase.app");
@@ -75,7 +75,21 @@ public class RealtimeDatabaseUtil {
         room.setPlayers(++numberOfPlayers);
 
         int dice = room.getDice();
-        room.setDice(dice += 6);
+        room.setDice(dice += NumberOfDice);
+    }
+
+    private void playerLostRound() {
+        room.setCurrentGameState(Room.GameState.ShakeTheDice);
+    }
+
+    private void leaveRoom() {
+        int numberOfPlayers = room.getPlayers();
+        room.setPlayers(--numberOfPlayers);
+
+        int dice = room.getDice();
+        room.setDice(dice -= NumberOfDice);
+
+        roomRef.setValue(room);
     }
 
     private void addValueEventListener() {
@@ -83,17 +97,22 @@ public class RealtimeDatabaseUtil {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 room = dataSnapshot.getValue(Room.class);
-                if(!newGame) {
-                    addOnePlayerToRoom();
-                    roomRef.setValue(room);
-                    newGame = true;
+                if(room == null) {
+                    Log.d(TAG, "No Room Found");
                 }
-                Log.d(TAG, "Value is: " + room.getRoomNumber());
+                else {
+                    if(!newGame) {
+                        addOnePlayerToRoom();
+                        roomRef.setValue(room);
+                        newGame = true;
+                    }
+                    Log.d(TAG, "Value is: " + room.getRoomNumber());
+                }
             }
 
             @Override
             public void onCancelled(DatabaseError error) {
-                Log.w(TAG, "Failed to read value.", error.toException());
+                Log.e(TAG, "Failed to read value.", error.toException());
             }
         });
     }
