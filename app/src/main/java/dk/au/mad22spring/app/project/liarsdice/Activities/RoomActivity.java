@@ -31,7 +31,6 @@ public class RoomActivity extends AppCompatActivity {
 
     private int numberOfDice;
     private boolean lostRound;
-    private boolean starting;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +39,6 @@ public class RoomActivity extends AppCompatActivity {
 
         numberOfDice = RealtimeDatabaseUtil.StartNumberOfDice;
         lostRound = false;
-        starting = true;
 
         Intent intentFromListActivity = getIntent();
         int roomNumber = intentFromListActivity.getIntExtra(HomeActivity.KEY_ROOM_NUMBER,0);
@@ -60,17 +58,24 @@ public class RoomActivity extends AppCompatActivity {
                 roomNumberText.setText(String.valueOf(room.getRoomNumber()));
                 diceRemainingText.setText(String.valueOf(room.getDice()));
                 playersText.setText(String.valueOf(room.getPlayers()));
-                if(room.getCurrentGameState() == Room.GameState.ShakeTheDice) {
-                    rollDiceButton.setEnabled(true);
-                    if(!lostRound && !starting) {
-                        numberOfDice--;
-                        Log.d(TAG,String.valueOf(numberOfDice));
-                    }
-                    starting = false;
-                    lostRound = false;
-                }
-                else {
-                    rollDiceButton.setEnabled(false);
+
+                switch (room.getCurrentGameState()) {
+                    case ShakeTheDice:
+                        rollDiceButton.setEnabled(true);
+                        loseRoundButton.setEnabled(false);
+                        if(!lostRound) {
+                            numberOfDice--;
+                            Log.d(TAG,String.valueOf(numberOfDice));
+                        }
+                        lostRound = false;
+                        break;
+                    case Started:
+                        rollDiceButton.setEnabled(true);
+                        break;
+                    case WaitingForPlayers:
+                        rollDiceButton.setEnabled(false);
+                        loseRoundButton.setEnabled(false);
+                        break;
                 }
             }
         });
@@ -104,10 +109,12 @@ public class RoomActivity extends AppCompatActivity {
 
     private void lostRound() {
         lostRound = true;
+        loseRoundButton.setEnabled(false);
         viewModel.playerLostRound();
     }
 
     private void rollDice() {
+        loseRoundButton.setEnabled(true);
         rollDiceButton.setEnabled(false);
 
         switch (numberOfDice) {
@@ -118,6 +125,9 @@ public class RoomActivity extends AppCompatActivity {
                 dice4Image.setImageResource(0);
                 dice5Image.setImageResource(0);
                 dice6Image.setImageResource(0);
+
+                loseRoundButton.setEnabled(false);
+                break;
             case 1:
                 dice1Image.setImageResource(viewModel.getRandomDice());
                 dice2Image.setImageResource(0);
