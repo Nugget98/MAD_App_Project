@@ -17,4 +17,8 @@ public class GoogleAuthenticationUtil {
     public String getSignedInUserUID() {
         return firebaseAuth.getUid();
     }
+
+    public void signOut() {
+        firebaseAuth.signOut();
+    }
 }
