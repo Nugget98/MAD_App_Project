@@ -111,6 +111,13 @@ public class RoomActivity extends AppCompatActivity {
         rollDiceButton.setEnabled(false);
 
         switch (numberOfDice) {
+            case 0:
+                dice1Image.setImageResource(0);
+                dice2Image.setImageResource(0);
+                dice3Image.setImageResource(0);
+                dice4Image.setImageResource(0);
+                dice5Image.setImageResource(0);
+                dice6Image.setImageResource(0);
             case 1:
                 dice1Image.setImageResource(viewModel.getRandomDice());
                 dice2Image.setImageResource(0);
