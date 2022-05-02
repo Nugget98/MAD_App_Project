@@ -29,9 +29,9 @@ public class RealtimeDatabaseUtil {
     private Boolean deletedRoom = false;
     private final MutableLiveData<Room> room = new MutableLiveData<>();
 
-    private static RealtimeDatabaseUtil instance = null;
+    //private static RealtimeDatabaseUtil instance = null;
 
-    public static RealtimeDatabaseUtil getInstance()
+  /*  public static RealtimeDatabaseUtil getInstance()
     {
         instance = new RealtimeDatabaseUtil();
 
@@ -45,8 +45,9 @@ public class RealtimeDatabaseUtil {
         }
         return instance;
     }
+    */
 
-    private RealtimeDatabaseUtil() {
+    public RealtimeDatabaseUtil() {
         int roomNumber = generateRandomRoomNumber();
         roomRef = realtimeDatabase.getReference(String.valueOf(roomNumber));
 
@@ -61,7 +62,7 @@ public class RealtimeDatabaseUtil {
         addValueEventListener();
     }
 
-    private RealtimeDatabaseUtil(int roomNumber) {
+    public RealtimeDatabaseUtil(int roomNumber) {
         roomRef = realtimeDatabase.getReference(String.valueOf(roomNumber));
         newGame = false;
         addValueEventListener();

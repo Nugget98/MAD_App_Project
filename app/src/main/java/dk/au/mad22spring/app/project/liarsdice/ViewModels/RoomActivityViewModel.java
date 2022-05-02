@@ -17,11 +17,11 @@ public class RoomActivityViewModel extends ViewModel {
     private RealtimeDatabaseUtil realtimeDatabaseUtil;
 
     public RoomActivityViewModel(){
-        realtimeDatabaseUtil = RealtimeDatabaseUtil.getInstance();
+        realtimeDatabaseUtil = new RealtimeDatabaseUtil();
     }
 
     public RoomActivityViewModel(int roomNumber) {
-        realtimeDatabaseUtil = RealtimeDatabaseUtil.getInstance(roomNumber);
+        realtimeDatabaseUtil = new RealtimeDatabaseUtil(roomNumber);
     }
 
     public MutableLiveData<Room> getRoom () {

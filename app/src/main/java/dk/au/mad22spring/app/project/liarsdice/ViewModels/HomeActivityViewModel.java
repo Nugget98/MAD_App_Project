@@ -9,7 +9,7 @@ public class HomeActivityViewModel extends ViewModel {
     private GoogleAuthenticationUtil googleAuthenticationUtil;
 
     public HomeActivityViewModel() {
-        googleAuthenticationUtil = new GoogleAuthenticationUtil();
+        googleAuthenticationUtil = GoogleAuthenticationUtil.getInstance();
     }
 
     public void singOut() {

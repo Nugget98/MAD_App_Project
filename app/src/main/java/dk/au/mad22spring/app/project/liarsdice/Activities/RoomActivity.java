@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -29,6 +30,8 @@ public class RoomActivity extends AppCompatActivity {
     private RoomActivityViewModel viewModel;
 
     private int numberOfDice;
+    private boolean lostRound;
+    private boolean starting;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +39,8 @@ public class RoomActivity extends AppCompatActivity {
         setContentView(R.layout.activity_room);
 
         numberOfDice = RealtimeDatabaseUtil.StartNumberOfDice;
+        lostRound = false;
+        starting = true;
 
         Intent intentFromListActivity = getIntent();
         int roomNumber = intentFromListActivity.getIntExtra(HomeActivity.KEY_ROOM_NUMBER,0);
@@ -57,6 +62,12 @@ public class RoomActivity extends AppCompatActivity {
                 playersText.setText(String.valueOf(room.getPlayers()));
                 if(room.getCurrentGameState() == Room.GameState.ShakeTheDice) {
                     rollDiceButton.setEnabled(true);
+                    if(!lostRound && !starting) {
+                        numberOfDice--;
+                        Log.d(TAG,String.valueOf(numberOfDice));
+                    }
+                    starting = false;
+                    lostRound = false;
                 }
                 else {
                     rollDiceButton.setEnabled(false);
@@ -92,14 +103,64 @@ public class RoomActivity extends AppCompatActivity {
     }
 
     private void lostRound() {
-        numberOfDice--;
+        lostRound = true;
         viewModel.playerLostRound();
     }
 
     private void rollDice() {
         rollDiceButton.setEnabled(false);
 
-        dice1Image.setImageResource(viewModel.getRandomDice());
+        switch (numberOfDice) {
+            case 1:
+                dice1Image.setImageResource(viewModel.getRandomDice());
+                dice2Image.setImageResource(0);
+                dice3Image.setImageResource(0);
+                dice4Image.setImageResource(0);
+                dice5Image.setImageResource(0);
+                dice6Image.setImageResource(0);
+                break;
+            case 2:
+                dice1Image.setImageResource(viewModel.getRandomDice());
+                dice2Image.setImageResource(viewModel.getRandomDice());
+                dice3Image.setImageResource(0);
+                dice4Image.setImageResource(0);
+                dice5Image.setImageResource(0);
+                dice6Image.setImageResource(0);
+                break;
+            case 3:
+                dice1Image.setImageResource(viewModel.getRandomDice());
+                dice2Image.setImageResource(viewModel.getRandomDice());
+                dice3Image.setImageResource(viewModel.getRandomDice());
+                dice4Image.setImageResource(0);
+                dice5Image.setImageResource(0);
+                dice6Image.setImageResource(0);
+                break;
+            case 4:
+                dice1Image.setImageResource(viewModel.getRandomDice());
+                dice2Image.setImageResource(viewModel.getRandomDice());
+                dice3Image.setImageResource(viewModel.getRandomDice());
+                dice4Image.setImageResource(viewModel.getRandomDice());
+                dice5Image.setImageResource(0);
+                dice6Image.setImageResource(0);
+                break;
+            case 5:
+                dice1Image.setImageResource(viewModel.getRandomDice());
+                dice2Image.setImageResource(viewModel.getRandomDice());
+                dice3Image.setImageResource(viewModel.getRandomDice());
+                dice4Image.setImageResource(viewModel.getRandomDice());
+                dice5Image.setImageResource(viewModel.getRandomDice());
+                dice6Image.setImageResource(0);
+                break;
+            case 6:
+                dice1Image.setImageResource(viewModel.getRandomDice());
+                dice2Image.setImageResource(viewModel.getRandomDice());
+                dice3Image.setImageResource(viewModel.getRandomDice());
+                dice4Image.setImageResource(viewModel.getRandomDice());
+                dice5Image.setImageResource(viewModel.getRandomDice());
+                dice6Image.setImageResource(viewModel.getRandomDice());
+                break;
+        }
+
     }
 
 
