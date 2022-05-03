@@ -71,6 +71,12 @@ public class RealtimeDatabaseUtil {
         roomRef.setValue(room.getValue());
     }
 
+    public void resetNumberOfDiceInGame() {
+        room.getValue().setCurrentGameState(Room.GameState.Started);
+        room.getValue().setDice(room.getValue().getPlayers() * Room.StartNumberOfDice);
+        roomRef.setValue(room.getValue());
+    }
+
     public void playerLostRound() {
         room.getValue().setCurrentGameState(Room.GameState.ShakeTheDice);
         int numberOfPlayers = room.getValue().getPlayers();
@@ -123,7 +129,7 @@ public class RealtimeDatabaseUtil {
             }
 
             @Override
-            public void onCancelled(DatabaseError error) {
+            public void onCancelled(@NonNull DatabaseError error) {
                 Log.e(TAG, "Failed to read value.", error.toException());
             }
         });

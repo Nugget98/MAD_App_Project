@@ -42,6 +42,7 @@ public class RoomActivityViewModel extends ViewModel {
     public void resetGame() {
         lostRound = false;
         numberOfDice = Room.StartNumberOfDice;
+        realtimeDatabaseUtil.resetNumberOfDiceInGame();
     }
 
     public int getNumberOfDice() {

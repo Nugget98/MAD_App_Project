@@ -50,40 +50,36 @@ public class RoomActivity extends AppCompatActivity {
             startGameButton.setVisibility(View.INVISIBLE);
         }
 
-        viewModel.getRoom().observe(this, new Observer<Room>() {
-            @Override
-            public void onChanged(Room room) {
-                roomNumberText.setText(String.valueOf(room.getRoomNumber()));
-                diceRemainingText.setText(String.valueOf(room.getDice()));
-                playersText.setText(String.valueOf(room.getPlayers()));
+        viewModel.getRoom().observe(this, room -> {
+            roomNumberText.setText(String.valueOf(room.getRoomNumber()));
+            diceRemainingText.setText(String.valueOf(room.getDice()));
+            playersText.setText(String.valueOf(room.getPlayers()));
 
-                switch (room.getCurrentGameState()) {
-                    case ShakeTheDice:
-                        if(room.getDice() == viewModel.getNumberOfDice()) {
-                            Log.d(TAG,"You lost the game");
-                            //save lost game in the database
-                            // sets the state to started
-                            viewModel.startGame();
-                        } else {
-                            rollDiceButton.setEnabled(true);
-                            loseRoundButton.setEnabled(false);
-                            if(!viewModel.getLostRound()) {
-                                viewModel.loseOneDice();
-                                Log.d(TAG,String.valueOf(viewModel.getNumberOfDice()));
-                            }
-                            viewModel.setLostRound(false);
-                        }
-                        break;
-                    case Started:
-                        viewModel.resetGame();
+            switch (room.getCurrentGameState()) {
+                case ShakeTheDice:
+                    if(room.getDice() == viewModel.getNumberOfDice()) {
+                        Log.d(TAG,"You lost the game");
+                        //save lost game in the database
+                        viewModel.startGame();
+                    } else {
                         rollDiceButton.setEnabled(true);
-                        //add one game to the player in the database
-                        break;
-                    case WaitingForPlayers:
-                        rollDiceButton.setEnabled(false);
                         loseRoundButton.setEnabled(false);
-                        break;
-                }
+                        if(!viewModel.getLostRound()) {
+                            viewModel.loseOneDice();
+                            Log.d(TAG,String.valueOf(viewModel.getNumberOfDice()));
+                        }
+                        viewModel.setLostRound(false);
+                    }
+                    break;
+                case Started:
+                    viewModel.resetGame();
+                    rollDiceButton.setEnabled(true);
+                    //add one game to the player in the database
+                    break;
+                case WaitingForPlayers:
+                    rollDiceButton.setEnabled(false);
+                    loseRoundButton.setEnabled(false);
+                    break;
             }
         });
 
