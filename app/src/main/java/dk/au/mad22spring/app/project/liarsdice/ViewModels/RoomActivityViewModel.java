@@ -14,6 +14,9 @@ public class RoomActivityViewModel extends ViewModel {
     private static final int min = 1;
     private static final int max = 6;
 
+    private int numberOfDice;
+    private boolean lostRound;
+
     private RealtimeDatabaseUtil realtimeDatabaseUtil;
 
     public RoomActivityViewModel(){
@@ -22,6 +25,27 @@ public class RoomActivityViewModel extends ViewModel {
 
     public RoomActivityViewModel(int roomNumber) {
         realtimeDatabaseUtil = new RealtimeDatabaseUtil(roomNumber);
+    }
+
+    public void setLostRound(boolean lostRound) {
+        this.lostRound = lostRound;
+    }
+
+    public boolean getLostRound() {
+        return lostRound;
+    }
+
+    public void loseOneDice() {
+        numberOfDice--;
+    }
+
+    public void resetGame() {
+        lostRound = false;
+        numberOfDice = Room.StartNumberOfDice;
+    }
+
+    public int getNumberOfDice() {
+        return numberOfDice;
     }
 
     public MutableLiveData<Room> getRoom () {
@@ -33,7 +57,12 @@ public class RoomActivityViewModel extends ViewModel {
     }
 
     public void playerLostRound() {
+        lostRound = true;
         realtimeDatabaseUtil.playerLostRound();
+    }
+
+    public void startGame() {
+        realtimeDatabaseUtil.setGameState(Room.GameState.Started);
     }
 
     public int getRandomDice() {

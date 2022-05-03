@@ -15,4 +15,5 @@
     <string name="DiceLeft">Terninger tilbage:</string>
     <string name="RoomNumber">Rum nummer:</string>
     <string name="LeaveRoom">Forlad rum</string>
+    <string name="StartGame">Start spil</string>
 </resources>

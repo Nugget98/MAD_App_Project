@@ -5,8 +5,10 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -24,33 +26,29 @@ public class RoomActivity extends AppCompatActivity {
     private static final String TAG = "RoomActivity";
 
     private TextView roomNumberText, playersText, diceRemainingText, shakeHelpText;
-    private Button leaveRoomButton, rollDiceButton, loseRoundButton;
+    private Button leaveRoomButton, rollDiceButton, loseRoundButton, startGameButton;
     private ImageView dice1Image, dice2Image, dice3Image, dice4Image, dice5Image, dice6Image;
 
     private RoomActivityViewModel viewModel;
-
-    private int numberOfDice;
-    private boolean lostRound;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_room);
 
-        numberOfDice = RealtimeDatabaseUtil.StartNumberOfDice;
-        lostRound = false;
+        initialise();
 
         Intent intentFromListActivity = getIntent();
         int roomNumber = intentFromListActivity.getIntExtra(HomeActivity.KEY_ROOM_NUMBER,0);
 
         if(roomNumber == 0) {
             viewModel = new ViewModelProvider(this).get(RoomActivityViewModel.class);
+            startGameButton.setVisibility(View.VISIBLE);
         }
         else {
             viewModel = new ViewModelProvider(this, new RoomActivityFactory(roomNumber)).get(RoomActivityViewModel.class);
+            startGameButton.setVisibility(View.INVISIBLE);
         }
-
-        initialise();
 
         viewModel.getRoom().observe(this, new Observer<Room>() {
             @Override
@@ -61,16 +59,25 @@ public class RoomActivity extends AppCompatActivity {
 
                 switch (room.getCurrentGameState()) {
                     case ShakeTheDice:
-                        rollDiceButton.setEnabled(true);
-                        loseRoundButton.setEnabled(false);
-                        if(!lostRound) {
-                            numberOfDice--;
-                            Log.d(TAG,String.valueOf(numberOfDice));
+                        if(room.getDice() == viewModel.getNumberOfDice()) {
+                            Log.d(TAG,"You lost the game");
+                            //save lost game in the database
+                            // sets the state to started
+                            viewModel.startGame();
+                        } else {
+                            rollDiceButton.setEnabled(true);
+                            loseRoundButton.setEnabled(false);
+                            if(!viewModel.getLostRound()) {
+                                viewModel.loseOneDice();
+                                Log.d(TAG,String.valueOf(viewModel.getNumberOfDice()));
+                            }
+                            viewModel.setLostRound(false);
                         }
-                        lostRound = false;
                         break;
                     case Started:
+                        viewModel.resetGame();
                         rollDiceButton.setEnabled(true);
+                        //add one game to the player in the database
                         break;
                     case WaitingForPlayers:
                         rollDiceButton.setEnabled(false);
@@ -83,6 +90,7 @@ public class RoomActivity extends AppCompatActivity {
         leaveRoomButton.setOnClickListener(view -> leaveRoom());
         loseRoundButton.setOnClickListener(view -> lostRound());
         rollDiceButton.setOnClickListener(view -> rollDice());
+        startGameButton.setOnClickListener(view -> startGame());
 
     }
 
@@ -94,6 +102,7 @@ public class RoomActivity extends AppCompatActivity {
         leaveRoomButton = findViewById(R.id.leaveRoomButton);
         rollDiceButton = findViewById(R.id.rollDiceButton);
         loseRoundButton = findViewById(R.id.loseRoundButton);
+        startGameButton = findViewById(R.id.startGameButton);
         dice1Image = findViewById(R.id.dice1Image);
         dice2Image = findViewById(R.id.dice2Image);
         dice3Image = findViewById(R.id.dice3Image);
@@ -102,13 +111,17 @@ public class RoomActivity extends AppCompatActivity {
         dice6Image = findViewById(R.id.dice6Image);
     }
 
+    private void startGame() {
+        viewModel.startGame();
+        startGameButton.setVisibility(View.INVISIBLE);
+    }
+
     private void leaveRoom() {
-        viewModel.leaveRoom(numberOfDice);
+        viewModel.leaveRoom(viewModel.getNumberOfDice());
         finish();
     }
 
     private void lostRound() {
-        lostRound = true;
         loseRoundButton.setEnabled(false);
         viewModel.playerLostRound();
     }
@@ -117,7 +130,7 @@ public class RoomActivity extends AppCompatActivity {
         loseRoundButton.setEnabled(true);
         rollDiceButton.setEnabled(false);
 
-        switch (numberOfDice) {
+        switch (viewModel.getNumberOfDice()) {
             case 0:
                 dice1Image.setImageResource(0);
                 dice2Image.setImageResource(0);

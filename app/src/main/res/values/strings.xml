@@ -14,4 +14,5 @@
     <string name="DiceLeft">Dice remaining:</string>
     <string name="RoomNumber">Room number:</string>
     <string name="LeaveRoom">Leave room</string>
+    <string name="StartGame">Start Game</string>
 </resources>

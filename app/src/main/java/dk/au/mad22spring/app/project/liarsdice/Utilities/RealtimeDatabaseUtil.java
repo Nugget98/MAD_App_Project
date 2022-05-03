@@ -20,7 +20,6 @@ import dk.au.mad22spring.app.project.liarsdice.Models.Room;
 
 public class RealtimeDatabaseUtil {
 
-    public static final int StartNumberOfDice = 6;
     private static final String TAG = "RealtimeDatabaseUtil";
 
     private FirebaseDatabase realtimeDatabase = FirebaseDatabase.getInstance("https://liar-s-dice-da444-default-rtdb.europe-west1.firebasedatabase.app");
@@ -28,24 +27,6 @@ public class RealtimeDatabaseUtil {
     private Boolean newGame;
     private Boolean deletedRoom = false;
     private final MutableLiveData<Room> room = new MutableLiveData<>();
-
-    //private static RealtimeDatabaseUtil instance = null;
-
-  /*  public static RealtimeDatabaseUtil getInstance()
-    {
-        instance = new RealtimeDatabaseUtil();
-
-        return instance;
-    }
-
-    public static RealtimeDatabaseUtil getInstance(int roomNumber)
-    {
-        if (instance == null) {
-            instance = new RealtimeDatabaseUtil(roomNumber);
-        }
-        return instance;
-    }
-    */
 
     public RealtimeDatabaseUtil() {
         int roomNumber = generateRandomRoomNumber();
@@ -82,7 +63,7 @@ public class RealtimeDatabaseUtil {
         room.getValue().setPlayers(++numberOfPlayers);
 
         int dice = room.getValue().getDice();
-        room.getValue().setDice(dice += StartNumberOfDice);
+        room.getValue().setDice(dice += Room.StartNumberOfDice);
     }
 
     public void setGameState(Room.GameState gameState) {

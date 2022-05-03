@@ -4,6 +4,8 @@ package dk.au.mad22spring.app.project.liarsdice.Models;
 
 public class Room {
 
+    public static final int StartNumberOfDice = 6;
+
     public enum GameState {
         WaitingForPlayers,
         ShakeTheDice,
