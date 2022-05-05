@@ -2,6 +2,8 @@ package dk.au.mad22spring.app.project.liarsdice.ViewModels;
 
 import android.app.Activity;
 
+import androidx.lifecycle.ViewModel;
+
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -10,7 +12,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import dk.au.mad22spring.app.project.liarsdice.LiarsDiceApplication;
 import dk.au.mad22spring.app.project.liarsdice.R;
 
-public class LoginActivityViewModel {
+public class LoginActivityViewModel extends ViewModel {
 
     private FirebaseAuth firebaseAuth;
     private GoogleSignInClient signInClient;
