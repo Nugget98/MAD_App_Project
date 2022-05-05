@@ -12,7 +12,7 @@ public class HomeActivityViewModel extends ViewModel {
         googleAuthenticationUtil = GoogleAuthenticationUtil.getInstance();
     }
 
-    public void singOut() {
+    public void signOut() {
         googleAuthenticationUtil.signOut();
     }
 }

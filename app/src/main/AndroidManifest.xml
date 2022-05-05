@@ -3,6 +3,7 @@
     package="dk.au.mad22spring.app.project.liarsdice">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
         android:name=".LiarsDiceApplication"
@@ -12,6 +13,10 @@
         android:roundIcon="@mipmap/ic_launcher_raffle_cup_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.LiarsDice">
+        <service
+            android:name=".Services.ForegroundService"
+            android:enabled="true"
+            android:exported="false" />
         <activity
             android:name=".Activities.RoomActivity"
             android:exported="false" />
@@ -26,7 +31,7 @@
         </activity>
         <activity
             android:name=".Activities.HomeActivity"
-            android:exported="false"></activity>
+            android:exported="false"/>
     </application>
 
 </manifest>
