@@ -37,6 +37,9 @@ public class RealtimeDatabaseUtil {
         newRoom.setDice(6);
         newRoom.setPlayers(1);
 
+        //GET real player name
+        newRoom.addOneToPlayersInRoom("Bob");
+
         roomRef.setValue(newRoom);
 
         newGame = true;
@@ -60,6 +63,9 @@ public class RealtimeDatabaseUtil {
 
         int dice = room.getValue().getDice();
         room.getValue().setDice(dice += Room.StartNumberOfDice);
+
+        //GET real player name
+        room.getValue().addOneToPlayersInRoom("Hans");
     }
 
     public void setGameState(Room.GameState gameState) {
@@ -86,8 +92,11 @@ public class RealtimeDatabaseUtil {
         int numberOfPlayers = room.getValue().getPlayers();
         room.getValue().setPlayers(--numberOfPlayers);
 
-        int dice = room.getValue().getDice();
-        room.getValue().setDice(dice -= numberOfDice);
+        int dice = room.getValue().getDice() - numberOfDice;
+        room.getValue().setDice(dice);
+
+        //The real name
+        room.getValue().removePlayer("Hans");
 
         roomRef.setValue(room.getValue());
     }
