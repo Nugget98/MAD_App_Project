@@ -49,10 +49,6 @@ public class RealtimeDatabaseUtil {
         addValueEventListener();
     }
 
-    public DatabaseReference getRoomRef() {
-        return roomRef;
-    }
-
     private int generateRandomRoomNumber() {
         Random r = new Random( System.currentTimeMillis() );
         return ((1 + r.nextInt(2)) * 10000 + r.nextInt(10000));

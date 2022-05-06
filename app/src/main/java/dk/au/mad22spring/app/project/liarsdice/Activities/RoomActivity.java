@@ -58,52 +58,29 @@ public class RoomActivity extends AppCompatActivity {
 
         if(roomNumber == 0) {
             viewModel = new ViewModelProvider(this).get(RoomActivityViewModel.class);
-            startGameButton.setVisibility(View.VISIBLE);
         }
         else {
             viewModel = new ViewModelProvider(this, new RoomActivityFactory(roomNumber)).get(RoomActivityViewModel.class);
-            startGameButton.setVisibility(View.INVISIBLE);
         }
 
-        //Inspired from https://stackoverflow.com/a/2184151
-        viewModel.getRoom().observe(this, room -> {
+        if(viewModel.getDiceRolled().size() > 0) {
+            setDiceImages();
+        }
+
+        viewModel.getNewRoom().observe(this, room -> {
             roomNumberText.setText(getString(R.string.RoomNumber) + " " + String.valueOf(room.getRoomNumber()));
             diceRemainingText.setText(getString(R.string.DiceLeft) + " " + String.valueOf(room.getDice()));
             playersText.setText(getString(R.string.PlayersText) + " " + String.valueOf(room.getPlayers()));
 
-            switch (room.getCurrentGameState()) {
-                case ShakeTheDice:
-                    if(room.getDice() == viewModel.getNumberOfDice()) {
-                        Log.d(TAG,"You lost the game");
-                        //SAVE LOST GAME IN DATABASE
-                        viewModel.startGame();
-                    } else {
-                        rollDiceButton.setEnabled(true);
-                        loseRoundButton.setEnabled(false);
-                        if(!viewModel.getLostRound()) {
-                            viewModel.loseOneDice();
-                            Log.d(TAG,String.valueOf(viewModel.getNumberOfDice()));
-                        }
-                        viewModel.setLostRound(false);
-                    }
-                    break;
-                case Started:
-                    viewModel.resetGame();
-                    rollDiceButton.setEnabled(true);
-                    //add one game to the player in the database
-                    break;
-                case WaitingForPlayers:
-                    rollDiceButton.setEnabled(false);
-                    loseRoundButton.setEnabled(false);
-                    break;
-            }
+            rollDiceButton.setEnabled(viewModel.getRollDiceButtonEnabled());
+            loseRoundButton.setEnabled(viewModel.getLoseRoundButtonEnabled());
+            startGameButton.setVisibility(viewModel.getStartButtonVisible());
         });
 
         leaveRoomButton.setOnClickListener(view -> leaveRoom());
         loseRoundButton.setOnClickListener(view -> lostRound());
         rollDiceButton.setOnClickListener(view -> rollDice());
         startGameButton.setOnClickListener(view -> startGame());
-
 
 
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -125,7 +102,7 @@ public class RoomActivity extends AppCompatActivity {
             float delta = mAccelCurrent - mAccelLast;
             mAccel = mAccel * 0.9f + delta;
             if (mAccel > 12) {
-                Toast.makeText(getApplicationContext(), "Shake event detected", Toast.LENGTH_SHORT).show();
+                rollDice();
             }
         }
         @Override
@@ -164,23 +141,33 @@ public class RoomActivity extends AppCompatActivity {
 
     private void startGame() {
         viewModel.startGame();
+        viewModel.setStartButtonVisible(View.INVISIBLE);
         startGameButton.setVisibility(View.INVISIBLE);
     }
 
     private void leaveRoom() {
-        viewModel.leaveRoom(viewModel.getNumberOfDice());
+        viewModel.leaveRoom();
         finish();
     }
 
     private void lostRound() {
         loseRoundButton.setEnabled(false);
+        viewModel.setLoseRoundButtonEnabled(false);
         viewModel.playerLostRound();
     }
 
     private void rollDice() {
+        viewModel.setLoseRoundButtonEnabled(true);
+        viewModel.setRollDiceButtonEnabled(false);
         loseRoundButton.setEnabled(true);
         rollDiceButton.setEnabled(false);
 
+        viewModel.roleDice();
+
+        setDiceImages();
+    }
+
+    private void setDiceImages() {
         switch (viewModel.getNumberOfDice()) {
             case 0:
                 dice1Image.setImageResource(0);
@@ -190,10 +177,11 @@ public class RoomActivity extends AppCompatActivity {
                 dice5Image.setImageResource(0);
                 dice6Image.setImageResource(0);
 
+                viewModel.setLoseRoundButtonEnabled(false);
                 loseRoundButton.setEnabled(false);
                 break;
             case 1:
-                dice1Image.setImageResource(viewModel.getRandomDice());
+                dice1Image.setImageResource(viewModel.getDiceRolled().get(0));
                 dice2Image.setImageResource(0);
                 dice3Image.setImageResource(0);
                 dice4Image.setImageResource(0);
@@ -201,44 +189,44 @@ public class RoomActivity extends AppCompatActivity {
                 dice6Image.setImageResource(0);
                 break;
             case 2:
-                dice1Image.setImageResource(viewModel.getRandomDice());
-                dice2Image.setImageResource(viewModel.getRandomDice());
+                dice1Image.setImageResource(viewModel.getDiceRolled().get(0));
+                dice2Image.setImageResource(viewModel.getDiceRolled().get(1));
                 dice3Image.setImageResource(0);
                 dice4Image.setImageResource(0);
                 dice5Image.setImageResource(0);
                 dice6Image.setImageResource(0);
                 break;
             case 3:
-                dice1Image.setImageResource(viewModel.getRandomDice());
-                dice2Image.setImageResource(viewModel.getRandomDice());
-                dice3Image.setImageResource(viewModel.getRandomDice());
+                dice1Image.setImageResource(viewModel.getDiceRolled().get(0));
+                dice2Image.setImageResource(viewModel.getDiceRolled().get(1));
+                dice3Image.setImageResource(viewModel.getDiceRolled().get(2));
                 dice4Image.setImageResource(0);
                 dice5Image.setImageResource(0);
                 dice6Image.setImageResource(0);
                 break;
             case 4:
-                dice1Image.setImageResource(viewModel.getRandomDice());
-                dice2Image.setImageResource(viewModel.getRandomDice());
-                dice3Image.setImageResource(viewModel.getRandomDice());
-                dice4Image.setImageResource(viewModel.getRandomDice());
+                dice1Image.setImageResource(viewModel.getDiceRolled().get(0));
+                dice2Image.setImageResource(viewModel.getDiceRolled().get(1));
+                dice3Image.setImageResource(viewModel.getDiceRolled().get(2));
+                dice4Image.setImageResource(viewModel.getDiceRolled().get(3));
                 dice5Image.setImageResource(0);
                 dice6Image.setImageResource(0);
                 break;
             case 5:
-                dice1Image.setImageResource(viewModel.getRandomDice());
-                dice2Image.setImageResource(viewModel.getRandomDice());
-                dice3Image.setImageResource(viewModel.getRandomDice());
-                dice4Image.setImageResource(viewModel.getRandomDice());
-                dice5Image.setImageResource(viewModel.getRandomDice());
+                dice1Image.setImageResource(viewModel.getDiceRolled().get(0));
+                dice2Image.setImageResource(viewModel.getDiceRolled().get(1));
+                dice3Image.setImageResource(viewModel.getDiceRolled().get(2));
+                dice4Image.setImageResource(viewModel.getDiceRolled().get(3));
+                dice5Image.setImageResource(viewModel.getDiceRolled().get(4));
                 dice6Image.setImageResource(0);
                 break;
             case 6:
-                dice1Image.setImageResource(viewModel.getRandomDice());
-                dice2Image.setImageResource(viewModel.getRandomDice());
-                dice3Image.setImageResource(viewModel.getRandomDice());
-                dice4Image.setImageResource(viewModel.getRandomDice());
-                dice5Image.setImageResource(viewModel.getRandomDice());
-                dice6Image.setImageResource(viewModel.getRandomDice());
+                dice1Image.setImageResource(viewModel.getDiceRolled().get(0));
+                dice2Image.setImageResource(viewModel.getDiceRolled().get(1));
+                dice3Image.setImageResource(viewModel.getDiceRolled().get(2));
+                dice4Image.setImageResource(viewModel.getDiceRolled().get(3));
+                dice5Image.setImageResource(viewModel.getDiceRolled().get(4));
+                dice6Image.setImageResource(viewModel.getDiceRolled().get(5));
                 break;
         }
     }

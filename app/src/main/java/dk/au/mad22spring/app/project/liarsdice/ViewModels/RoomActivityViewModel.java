@@ -1,8 +1,14 @@
 package dk.au.mad22spring.app.project.liarsdice.ViewModels;
 
+import android.util.Log;
+import android.view.View;
+
+import androidx.annotation.IntDef;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import dk.au.mad22spring.app.project.liarsdice.Models.Room;
@@ -11,35 +17,119 @@ import dk.au.mad22spring.app.project.liarsdice.Utilities.RealtimeDatabaseUtil;
 
 public class RoomActivityViewModel extends ViewModel {
 
+    private static final String TAG = "RoomActivityViewModel";
+
     private static final int min = 1;
     private static final int max = 6;
 
     private int numberOfDice;
     private boolean lostRound;
+    private boolean rollDiceButtonEnabled;
+    private boolean loseRoundButtonEnabled;
+    private int startButtonVisible;
+
+    private Room currentRoom;
+
+    private androidx.lifecycle.Observer<Room> observer;
 
     private RealtimeDatabaseUtil realtimeDatabaseUtil;
 
-    public RoomActivityViewModel(){
+    private final MutableLiveData<Room> newRoom = new MutableLiveData<>();
+
+    private ArrayList<Integer> diceRolled = new ArrayList<>();
+
+    public RoomActivityViewModel() {
         realtimeDatabaseUtil = new RealtimeDatabaseUtil();
+        startButtonVisible = View.VISIBLE;
+        handleGameState();
     }
 
     public RoomActivityViewModel(int roomNumber) {
         realtimeDatabaseUtil = new RealtimeDatabaseUtil(roomNumber);
+        startButtonVisible = View.INVISIBLE;
+        handleGameState();
     }
 
-    public void setLostRound(boolean lostRound) {
-        this.lostRound = lostRound;
+    private void handleGameState() {
+        //Inspired from https://stackoverflow.com/questions/48396092/should-i-include-lifecycleowner-in-viewmodel
+        observer = new androidx.lifecycle.Observer<Room>() {
+            @Override
+            public void onChanged(Room room) {
+                currentRoom = room;
+
+                switch (room.getCurrentGameState()) {
+                    case ShakeTheDice:
+                        if (room.getDice() == numberOfDice) {
+                            Log.d(TAG, "You lost the game");
+                            //SAVE LOST GAME IN DATABASE
+                            startGame();
+                        } else {
+                            rollDiceButtonEnabled = true;
+                            loseRoundButtonEnabled = false;
+                            if (!lostRound) {
+                                loseOneDice();
+                                Log.d(TAG, String.valueOf(numberOfDice));
+                            }
+                            lostRound = false;
+                        }
+                        break;
+                    case Started:
+                        Log.d(TAG, "started called");
+                        resetGame();
+                        rollDiceButtonEnabled = true;
+                        //add one game to the player in the database
+                        break;
+                    case WaitingForPlayers:
+                        loseRoundButtonEnabled = false;
+                        rollDiceButtonEnabled = false;
+                        break;
+                }
+                newRoom.setValue(currentRoom);
+            }
+        };
+
+        realtimeDatabaseUtil.getRoom().observeForever(observer);
     }
 
-    public boolean getLostRound() {
-        return lostRound;
+    public MutableLiveData<Room> getNewRoom() {
+        return newRoom;
     }
 
-    public void loseOneDice() {
+    //Inspired from https://stackoverflow.com/questions/26139115/not-able-to-dynamically-set-the-setvisibility-parameter
+    @IntDef({View.VISIBLE, View.INVISIBLE, View.GONE})
+    public @interface Visibility {
+    }
+
+    public @Visibility
+    int getStartButtonVisible() {
+        return startButtonVisible;
+    }
+
+    public boolean getRollDiceButtonEnabled() {
+        return rollDiceButtonEnabled;
+    }
+
+    public void setStartButtonVisible(int startButtonVisible) {
+        this.startButtonVisible = startButtonVisible;
+    }
+
+    public boolean getLoseRoundButtonEnabled() {
+        return loseRoundButtonEnabled;
+    }
+
+    public void setRollDiceButtonEnabled(boolean rollDiceButtonEnabled) {
+        this.rollDiceButtonEnabled = rollDiceButtonEnabled;
+    }
+
+    public void setLoseRoundButtonEnabled(boolean loseRoundButtonEnabled) {
+        this.loseRoundButtonEnabled = loseRoundButtonEnabled;
+    }
+
+    private void loseOneDice() {
         numberOfDice--;
     }
 
-    public void resetGame() {
+    private void resetGame() {
         lostRound = false;
         numberOfDice = Room.StartNumberOfDice;
         realtimeDatabaseUtil.resetNumberOfDiceInGame();
@@ -49,11 +139,7 @@ public class RoomActivityViewModel extends ViewModel {
         return numberOfDice;
     }
 
-    public MutableLiveData<Room> getRoom () {
-        return realtimeDatabaseUtil.getRoom();
-    }
-
-    public void leaveRoom(int numberOfDice) {
+    public void leaveRoom() {
         realtimeDatabaseUtil.leaveRoom(numberOfDice);
     }
 
@@ -66,7 +152,18 @@ public class RoomActivityViewModel extends ViewModel {
         realtimeDatabaseUtil.setGameState(Room.GameState.Started);
     }
 
-    public int getRandomDice() {
+    public ArrayList<Integer> getDiceRolled() {
+        return diceRolled;
+    }
+
+    public void roleDice() {
+        diceRolled.clear();
+        for (int i = 0; i < 6; i++) {
+            diceRolled.add(getRandomDice());
+        }
+    }
+
+    private int getRandomDice() {
         int random = new Random().nextInt((max - min) + 1) + min;
 
         switch (random) {
@@ -85,6 +182,12 @@ public class RoomActivityViewModel extends ViewModel {
             default:
                 return 0;
         }
+    }
+
+    @Override
+    public void onCleared() {
+        realtimeDatabaseUtil.getRoom().removeObserver(observer);
+        super.onCleared();
     }
 
 }
