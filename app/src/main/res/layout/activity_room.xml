@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activities.RoomActivity">
+
+    <TextView
+        android:id="@+id/roomNumberText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:text="@string/RoomNumber"
+        app:layout_constraintEnd_toStartOf="@+id/leaveRoomButton"
+        app:layout_constraintStart_toEndOf="@+id/startGameButton"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/leaveRoomButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="72dp"
+        android:layout_marginEnd="20dp"
+        android:text="@string/LeaveRoom"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/playersText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/PlayersText"
+        app:layout_constraintEnd_toStartOf="@+id/diceRemainingText"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/startGameButton"
+        app:layout_constraintTop_toBottomOf="@+id/startGameButton" />
+
+    <TextView
+        android:id="@+id/diceRemainingText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/DiceLeft"
+        app:layout_constraintStart_toStartOf="@+id/leaveRoomButton"
+        app:layout_constraintTop_toTopOf="@+id/playersText" />
+
+    <ImageView
+        android:id="@+id/dice1Image"
+        android:layout_width="91dp"
+        android:layout_height="91dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="52dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/playersText"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <ImageView
+        android:id="@+id/dice2Image"
+        android:layout_width="91dp"
+        android:layout_height="91dp"
+        app:layout_constraintEnd_toStartOf="@+id/dice3Image"
+        app:layout_constraintStart_toEndOf="@+id/dice1Image"
+        app:layout_constraintTop_toTopOf="@+id/dice1Image"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <ImageView
+        android:id="@+id/dice4Image"
+        android:layout_width="91dp"
+        android:layout_height="91dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintEnd_toEndOf="@+id/dice1Image"
+        app:layout_constraintStart_toStartOf="@+id/dice1Image"
+        app:layout_constraintTop_toBottomOf="@+id/dice1Image"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <ImageView
+        android:id="@+id/dice3Image"
+        android:layout_width="91dp"
+        android:layout_height="91dp"
+        android:layout_marginEnd="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/dice2Image"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <ImageView
+        android:id="@+id/dice5Image"
+        android:layout_width="91dp"
+        android:layout_height="91dp"
+        app:layout_constraintBottom_toBottomOf="@+id/dice4Image"
+        app:layout_constraintEnd_toEndOf="@+id/dice2Image"
+        app:layout_constraintStart_toStartOf="@+id/dice2Image"
+        app:layout_constraintTop_toTopOf="@+id/dice4Image"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <ImageView
+        android:id="@+id/dice6Image"
+        android:layout_width="91dp"
+        android:layout_height="91dp"
+        app:layout_constraintBottom_toBottomOf="@+id/dice5Image"
+        app:layout_constraintEnd_toEndOf="@+id/dice3Image"
+        app:layout_constraintStart_toStartOf="@+id/dice3Image"
+        app:layout_constraintTop_toTopOf="@+id/dice5Image"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/shakeHelpText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/ShakeHelp"
+        app:layout_constraintEnd_toEndOf="@+id/rollDiceButton"
+        app:layout_constraintHorizontal_bias="0.408"
+        app:layout_constraintStart_toStartOf="@+id/rollDiceButton"
+        app:layout_constraintTop_toBottomOf="@+id/dice4Image" />
+
+    <Button
+        android:id="@+id/rollDiceButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/RollDice"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/shakeHelpText" />
+
+    <Button
+        android:id="@+id/loseRoundButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:text="@string/LoseRound"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rollDiceButton"
+        app:layout_constraintVertical_bias="0.179" />
+
+    <Button
+        android:id="@+id/startGameButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="84dp"
+        android:text="@string/StartGame"
+        app:layout_constraintEnd_toStartOf="@+id/leaveRoomButton"
+        app:layout_constraintHorizontal_bias="0.514"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/leaveRoomButton" />
+</androidx.constraintlayout.widget.ConstraintLayout>

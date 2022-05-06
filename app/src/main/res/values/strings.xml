@@ -15,4 +15,12 @@
     <string name="ProfileHelperText">Username</string>
     <string name="btnSave">Save</string>
     <string name="btnCancel">Cancel</string>
+    <string name="LoseRound">I lost the round</string>
+    <string name="RollDice">Roll dice here</string>
+    <string name="ShakeHelp">Shake the phone to role your dice</string>
+    <string name="PlayersText">Players:</string>
+    <string name="DiceLeft">Dice remaining:</string>
+    <string name="RoomNumber">Room number:</string>
+    <string name="LeaveRoom">Leave room</string>
+    <string name="StartGame">Start Game</string>
 </resources>

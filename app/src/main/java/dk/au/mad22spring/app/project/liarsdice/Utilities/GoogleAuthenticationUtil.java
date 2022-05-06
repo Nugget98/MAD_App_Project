@@ -6,7 +6,16 @@ public class GoogleAuthenticationUtil {
 
     private FirebaseAuth firebaseAuth;
 
-    public GoogleAuthenticationUtil() {
+    private static GoogleAuthenticationUtil instance = null;
+
+    public static GoogleAuthenticationUtil getInstance() {
+        if (instance == null) {
+            instance = new GoogleAuthenticationUtil();
+        }
+        return instance;
+    }
+
+    private GoogleAuthenticationUtil() {
         firebaseAuth = FirebaseAuth.getInstance();
     }
 
@@ -16,5 +25,9 @@ public class GoogleAuthenticationUtil {
 
     public String getSignedInUserUID() {
         return firebaseAuth.getUid();
+    }
+
+    public void signOut() {
+        firebaseAuth.signOut();
     }
 }
