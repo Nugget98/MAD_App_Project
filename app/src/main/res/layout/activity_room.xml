@@ -10,19 +10,18 @@
         android:id="@+id/roomNumberText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
+        android:layout_marginTop="28dp"
         android:text="@string/RoomNumber"
         app:layout_constraintEnd_toStartOf="@+id/leaveRoomButton"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/leaveRoomButton" />
+        app:layout_constraintStart_toEndOf="@+id/startGameButton"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/leaveRoomButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginTop="72dp"
+        android:layout_marginEnd="20dp"
         android:text="@string/LeaveRoom"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -31,19 +30,19 @@
         android:id="@+id/playersText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="84dp"
+        android:layout_marginTop="24dp"
         android:text="@string/PlayersText"
-        app:layout_constraintStart_toStartOf="@+id/roomNumberText"
-        app:layout_constraintTop_toBottomOf="@+id/roomNumberText" />
+        app:layout_constraintEnd_toStartOf="@+id/diceRemainingText"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/startGameButton"
+        app:layout_constraintTop_toBottomOf="@+id/startGameButton" />
 
     <TextView
         android:id="@+id/diceRemainingText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/DiceLeft"
-        app:layout_constraintEnd_toEndOf="@+id/leaveRoomButton"
-        app:layout_constraintHorizontal_bias="0.944"
-        app:layout_constraintStart_toEndOf="@+id/playersText"
+        app:layout_constraintStart_toStartOf="@+id/leaveRoomButton"
         app:layout_constraintTop_toTopOf="@+id/playersText" />
 
     <ImageView
@@ -110,16 +109,16 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="@string/ShakeHelp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/rollDiceButton"
         app:layout_constraintHorizontal_bias="0.408"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/rollDiceButton"
         app:layout_constraintTop_toBottomOf="@+id/dice4Image" />
 
     <Button
         android:id="@+id/rollDiceButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="16dp"
         android:text="@string/RollDice"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -133,17 +132,19 @@
         android:text="@string/LoseRound"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rollDiceButton" />
+        app:layout_constraintTop_toBottomOf="@+id/rollDiceButton"
+        app:layout_constraintVertical_bias="0.179" />
 
     <Button
         android:id="@+id/startGameButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="88dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="84dp"
         android:text="@string/StartGame"
         app:layout_constraintEnd_toStartOf="@+id/leaveRoomButton"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintHorizontal_bias="0.514"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/leaveRoomButton" />
 </androidx.constraintlayout.widget.ConstraintLayout>

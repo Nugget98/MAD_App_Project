@@ -10,9 +10,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import dk.au.mad22spring.app.project.liarsdice.R;
-import dk.au.mad22spring.app.project.liarsdice.Utilities.RealtimeDatabaseUtil;
+import dk.au.mad22spring.app.project.liarsdice.Services.ForegroundService;
 import dk.au.mad22spring.app.project.liarsdice.ViewModels.HomeActivityViewModel;
-import dk.au.mad22spring.app.project.liarsdice.ViewModels.RoomActivityViewModel;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -30,6 +29,8 @@ public class HomeActivity extends AppCompatActivity {
         viewModel = new ViewModelProvider(this).get(HomeActivityViewModel.class);
 
         initialise();
+
+        startForegroundService();
     }
 
     private void initialise() {
@@ -66,9 +67,12 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void signOut() {
-        viewModel.singOut();
+        viewModel.signOut();
         finish();
     }
 
-
+    private void startForegroundService() {
+        Intent foregroundServiceIntent = new Intent(this, ForegroundService.class);
+        startService(foregroundServiceIntent);
+    }
 }

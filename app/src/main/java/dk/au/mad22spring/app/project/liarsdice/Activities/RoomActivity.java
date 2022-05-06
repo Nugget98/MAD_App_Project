@@ -1,18 +1,27 @@
 package dk.au.mad22spring.app.project.liarsdice.Activities;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Context;
 import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.nfc.Tag;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.util.Objects;
 import java.util.Random;
 
 import dk.au.mad22spring.app.project.liarsdice.Models.Room;
@@ -31,6 +40,12 @@ public class RoomActivity extends AppCompatActivity {
 
     private RoomActivityViewModel viewModel;
 
+    private SensorManager mSensorManager;
+    private float mAccel;
+    private float mAccelCurrent;
+    private float mAccelLast;
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,16 +65,17 @@ public class RoomActivity extends AppCompatActivity {
             startGameButton.setVisibility(View.INVISIBLE);
         }
 
+        //Inspired from https://stackoverflow.com/a/2184151
         viewModel.getRoom().observe(this, room -> {
-            roomNumberText.setText(String.valueOf(room.getRoomNumber()));
-            diceRemainingText.setText(String.valueOf(room.getDice()));
-            playersText.setText(String.valueOf(room.getPlayers()));
+            roomNumberText.setText(getString(R.string.RoomNumber) + " " + String.valueOf(room.getRoomNumber()));
+            diceRemainingText.setText(getString(R.string.DiceLeft) + " " + String.valueOf(room.getDice()));
+            playersText.setText(getString(R.string.PlayersText) + " " + String.valueOf(room.getPlayers()));
 
             switch (room.getCurrentGameState()) {
                 case ShakeTheDice:
                     if(room.getDice() == viewModel.getNumberOfDice()) {
                         Log.d(TAG,"You lost the game");
-                        //save lost game in the database
+                        //SAVE LOST GAME IN DATABASE
                         viewModel.startGame();
                     } else {
                         rollDiceButton.setEnabled(true);
@@ -88,6 +104,45 @@ public class RoomActivity extends AppCompatActivity {
         rollDiceButton.setOnClickListener(view -> rollDice());
         startGameButton.setOnClickListener(view -> startGame());
 
+
+
+        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        Objects.requireNonNull(mSensorManager).registerListener(mSensorListener, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+                SensorManager.SENSOR_DELAY_NORMAL);
+        mAccel = 10f;
+        mAccelCurrent = SensorManager.GRAVITY_EARTH;
+        mAccelLast = SensorManager.GRAVITY_EARTH;
+    }
+
+    private final SensorEventListener mSensorListener = new SensorEventListener() {
+        @Override
+        public void onSensorChanged(SensorEvent event) {
+            float x = event.values[0];
+            float y = event.values[1];
+            float z = event.values[2];
+            mAccelLast = mAccelCurrent;
+            mAccelCurrent = (float) Math.sqrt((double) (x * x + y * y + z * z));
+            float delta = mAccelCurrent - mAccelLast;
+            mAccel = mAccel * 0.9f + delta;
+            if (mAccel > 12) {
+                Toast.makeText(getApplicationContext(), "Shake event detected", Toast.LENGTH_SHORT).show();
+            }
+        }
+        @Override
+        public void onAccuracyChanged(Sensor sensor, int accuracy) {
+        }
+    };
+
+    @Override
+    protected void onResume() {
+        mSensorManager.registerListener(mSensorListener, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+                SensorManager.SENSOR_DELAY_NORMAL);
+        super.onResume();
+    }
+    @Override
+    protected void onPause() {
+        mSensorManager.unregisterListener(mSensorListener);
+        super.onPause();
     }
 
     private void initialise() {
@@ -186,8 +241,5 @@ public class RoomActivity extends AppCompatActivity {
                 dice6Image.setImageResource(viewModel.getRandomDice());
                 break;
         }
-
     }
-
-
 }
