@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -12,6 +13,8 @@ import android.widget.Toast;
 
 import dk.au.mad22spring.app.project.liarsdice.R;
 import dk.au.mad22spring.app.project.liarsdice.Services.ForegroundService;
+import dk.au.mad22spring.app.project.liarsdice.Utilities.FirestoreUtil;
+import dk.au.mad22spring.app.project.liarsdice.Utilities.GoogleAuthenticationUtil;
 import dk.au.mad22spring.app.project.liarsdice.ViewModels.HomeActivityViewModel;
 
 public class HomeActivity extends AppCompatActivity {
@@ -34,6 +37,19 @@ public class HomeActivity extends AppCompatActivity {
         initialise();
 
         startForegroundService();
+
+        GoogleAuthenticationUtil googleAuthenticationUtil = GoogleAuthenticationUtil.getInstance();
+        FirestoreUtil firestoreUtil = new FirestoreUtil();
+        firestoreUtil.doesUserExist(googleAuthenticationUtil.getSignedInUserUID());
+        firestoreUtil.getUser().observe(this, user -> {
+            if(user != null){
+                Log.d("HOME", "User exist: true");
+            } else {
+                Log.d("HOME", "User exist: false");
+                firestoreUtil.updateUser(googleAuthenticationUtil.getSignedInUserUID(),googleAuthenticationUtil.getSignedInUserName(),0,0);
+            }
+        });
+
     }
 
     private void initialise() {

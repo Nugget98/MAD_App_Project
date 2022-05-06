@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -21,55 +22,63 @@ import dk.au.mad22spring.app.project.liarsdice.Utilities.User;
 public class ProfileActivity extends AppCompatActivity {
     private static final String TAG = "FirestoreUtil: ";
 
+    private TextView txtUsername;
     private TextView txtWins;
     private TextView txtLoses;
     private TextView txtTotalGames;
+
+    private Button btnSave;
+    private Button btnCancel;
+
+    private FirestoreUtil firestoreUtil;
+    private GoogleAuthenticationUtil googleAuthenticationUtil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
+        init();
+        checkUser();
+    }
+
+    private void init() {
         txtWins = findViewById(R.id.txtDisplayWins);
         txtLoses = findViewById(R.id.txtDisplayLoses);
         txtTotalGames = findViewById(R.id.txtDisplayTotalGames);
+        txtUsername = findViewById(R.id.editTextUsername);
+        btnSave = findViewById(R.id.btnSave);
+        btnCancel = findViewById(R.id.btnCancel);
 
-        FirestoreUtil firestoreUtil = new FirestoreUtil();
-        GoogleAuthenticationUtil googleAuthenticationUtil = new GoogleAuthenticationUtil();
-        User user = new User();
-        firestoreUtil.docRefResponse(googleAuthenticationUtil.getSignedInUserUID()).get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot document = task.getResult();
-                            if (document.exists()) {
-                                Map<String, Object> data = document.getData();
-                                Log.d(TAG, "DocumentSnapshot data: " + data.get("Wins"));
-                                user.setDisplayname(data.get("Displayname").toString());
-                                user.Wins = data.get("Wins").toString();
-                                user.Loses = data.get("Loses").toString();
-                                user.TotalGames = String.valueOf(Integer.parseInt(user.Wins) - Integer.parseInt(user.Loses));
-                                Log.d(TAG, "User wins: " + user.Wins);
-                                updateUI(user);
-                            } else {
-                                Log.d(TAG, "No such document");
-                            }
-                        } else {
-                            Log.d(TAG, "get failed with ", task.getException());
-                        }
-                    }
-                });
-        //user.TotalGames = String.valueOf(Integer.parseInt(user.Wins) - Integer.parseInt( user.Loses));
+        btnSave.setOnClickListener(view -> save());
+        btnCancel.setOnClickListener(view -> cancel());
 
-        txtWins.setText("" + user.Wins);
-        txtLoses.setText(user.Loses);
-        //txtTotalGames.setText(user.TotalGames);
-
-
+        firestoreUtil = new FirestoreUtil();
+        googleAuthenticationUtil = GoogleAuthenticationUtil.getInstance();
     }
 
-    private void updateUI(User user) {
-        Log.d("Profile: ", "user displayname - " + user.getDisplayname());
+    private void checkUser() {
+        firestoreUtil.doesUserExist(googleAuthenticationUtil.getSignedInUserUID());
+        firestoreUtil.getUser().observe(this, user -> {
+            if(user != null){
+                Log.d("Profile", "User exist: true");
+                txtUsername.setText(user.Displayname);
+                txtWins.setText(user.Wins);
+                txtLoses.setText(user.Loses);
+                txtTotalGames.setText(user.TotalGames);
+            } else {
+                Log.d("Profile", "User exist: false");
+                firestoreUtil.updateUser(googleAuthenticationUtil.getSignedInUserUID(),googleAuthenticationUtil.getSignedInUserName(),0,0);
+            }
+        });
+    }
+
+    private void save() {
+        firestoreUtil.updateUser(googleAuthenticationUtil.getSignedInUserUID(), txtUsername.getText().toString(), Integer.parseInt(txtWins.getText().toString()), Integer.parseInt(txtLoses.getText().toString()));
+        finish();
+    }
+
+    private void cancel() {
+        finish();
     }
 }
