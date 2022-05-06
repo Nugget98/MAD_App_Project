@@ -72,6 +72,10 @@ public class RoomActivity extends AppCompatActivity {
             diceRemainingText.setText(getString(R.string.DiceLeft) + " " + String.valueOf(room.getDice()));
             playersText.setText(getString(R.string.PlayersText) + " " + String.valueOf(room.getPlayers()));
 
+            if(room.getCurrentGameState() == Room.GameState.WaitingForPlayers) {
+                Toast.makeText(this, room.getPlayersInRoom().get(room.getPlayersInRoom().size() - 1) + " joined the room", Toast.LENGTH_SHORT).show();
+            }
+
             rollDiceButton.setEnabled(viewModel.getRollDiceButtonEnabled());
             loseRoundButton.setEnabled(viewModel.getLoseRoundButtonEnabled());
             startGameButton.setVisibility(viewModel.getStartButtonVisible());

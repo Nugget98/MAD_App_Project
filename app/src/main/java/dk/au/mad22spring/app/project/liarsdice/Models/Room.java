@@ -1,6 +1,7 @@
 package dk.au.mad22spring.app.project.liarsdice.Models;
 
 
+import java.util.ArrayList;
 
 public class Room {
 
@@ -16,6 +17,19 @@ public class Room {
     private int Players = 0;
     private int Dice = 0;
     private GameState CurrentGameState = GameState.WaitingForPlayers;
+    private ArrayList<String> playersInRoom = new ArrayList<>();
+
+    public ArrayList<String> getPlayersInRoom() {
+        return playersInRoom;
+    }
+
+    public void addOneToPlayersInRoom(String playerName) {
+        playersInRoom.add(playerName);
+    }
+
+    public void removePlayer(String playerName) {
+        playersInRoom.remove(playerName);
+    }
 
     public int getRoomNumber() {
         return RoomNumber;

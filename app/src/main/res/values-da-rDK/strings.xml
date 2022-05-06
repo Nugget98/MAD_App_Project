@@ -17,6 +17,8 @@
     <string name="RoomNumber">Rum nummer:</string>
     <string name="LeaveRoom">Forlad rum</string>
     <string name="StartGame">Start spil</string>
+    <string name="LoginHeaderText">Velkommen til Snyd</string>
+    <string name="LoginText">Login for at spille Snyd</string>
     <string name="ProfileDisplayName">Brugernavn:</string>
     <string name="ProfileWins">Vundet:</string>
     <string name="ProfileLoses">Tabt:</string>
