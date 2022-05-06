@@ -2,6 +2,7 @@ package dk.au.mad22spring.app.project.liarsdice.ViewModels;
 
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.IntDef;
 import androidx.lifecycle.MutableLiveData;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import dk.au.mad22spring.app.project.liarsdice.LiarsDiceApplication;
 import dk.au.mad22spring.app.project.liarsdice.Models.Room;
 import dk.au.mad22spring.app.project.liarsdice.R;
 import dk.au.mad22spring.app.project.liarsdice.Utilities.RealtimeDatabaseUtil;
@@ -22,7 +24,7 @@ public class RoomActivityViewModel extends ViewModel {
     private static final int min = 1;
     private static final int max = 6;
 
-    private int numberOfDice;
+    private int numberOfDice = Room.StartNumberOfDice;
     private boolean lostRound;
     private boolean rollDiceButtonEnabled;
     private boolean loseRoundButtonEnabled;
@@ -60,7 +62,7 @@ public class RoomActivityViewModel extends ViewModel {
                 switch (room.getCurrentGameState()) {
                     case ShakeTheDice:
                         if (room.getDice() == numberOfDice) {
-                            Log.d(TAG, "You lost the game");
+                            Toast.makeText(LiarsDiceApplication.getAppContext(), "You lost the game", Toast.LENGTH_SHORT).show();
                             //SAVE LOST GAME IN DATABASE
                             startGame();
                         } else {
@@ -74,6 +76,7 @@ public class RoomActivityViewModel extends ViewModel {
                         }
                         break;
                     case Started:
+                        Toast.makeText(LiarsDiceApplication.getAppContext(), "Game started", Toast.LENGTH_SHORT).show();
                         Log.d(TAG, "started called");
                         resetGame();
                         rollDiceButtonEnabled = true;
