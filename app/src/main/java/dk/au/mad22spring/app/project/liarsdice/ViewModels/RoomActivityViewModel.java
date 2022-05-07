@@ -68,7 +68,7 @@ public class RoomActivityViewModel extends ViewModel {
                             FirestoreUtil firestoreUtil = FirestoreUtil.getFirestore();
                             StaticUser.staticUser.Loses = String.valueOf(Integer.parseInt(StaticUser.staticUser.Loses) + 1);
                             firestoreUtil.updateStats(StaticUser.staticUser);
-                            startGame();
+                            resetGame();
                         } else {
                             rollDiceButtonEnabled = true;
                             loseRoundButtonEnabled = false;
@@ -87,7 +87,6 @@ public class RoomActivityViewModel extends ViewModel {
                         Toast.makeText(LiarsDiceApplication.getAppContext(), "Game started", Toast.LENGTH_SHORT).show();
                         Log.d("STARTLOG", "started called");
                         StaticUser.staticUser.TotalGames = String.valueOf(Integer.parseInt(StaticUser.staticUser.TotalGames) + 1);
-                        resetGame();
                         rollDiceButtonEnabled = true;
                         //add one game to the player in the database
                         break;
@@ -145,10 +144,10 @@ public class RoomActivityViewModel extends ViewModel {
         }
     }
 
-    private void resetGame() {
+    public void resetGame() {
         lostRound = false;
         numberOfDice = Room.StartNumberOfDice;
-        realtimeDatabaseUtil.resetNumberOfDiceInGame();
+        realtimeDatabaseUtil.resetGame();
     }
 
     public int getNumberOfDice() {
@@ -162,10 +161,6 @@ public class RoomActivityViewModel extends ViewModel {
     public void playerLostRound() {
         lostRound = true;
         realtimeDatabaseUtil.playerLostRound();
-    }
-
-    public void startGame() {
-        realtimeDatabaseUtil.setGameState(Room.GameState.Started);
     }
 
     public ArrayList<Integer> getDiceRolled() {
