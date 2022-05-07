@@ -44,6 +44,8 @@ public class RoomActivityViewModel extends ViewModel {
 
     private int checkRoomNumber = 0;
 
+    private FirestoreUtil firestoreUtil = FirestoreUtil.getFirestore();
+
     public RoomActivityViewModel() {
         realtimeDatabaseUtil = new RealtimeDatabaseUtil();
         startButtonVisible = View.VISIBLE;
@@ -68,7 +70,6 @@ public class RoomActivityViewModel extends ViewModel {
                     case ShakeTheDice:
                         if (room.getDice() == numberOfDice) {
                             Toast.makeText(LiarsDiceApplication.getAppContext(), "You lost the game", Toast.LENGTH_SHORT).show();
-                            FirestoreUtil firestoreUtil = FirestoreUtil.getFirestore();
                             StaticUser.staticUser.Loses = String.valueOf(Integer.parseInt(StaticUser.staticUser.Loses) + 1);
                             firestoreUtil.updateStats(StaticUser.staticUser);
                             startNextGame();
@@ -90,6 +91,7 @@ public class RoomActivityViewModel extends ViewModel {
                         Toast.makeText(LiarsDiceApplication.getAppContext(), "Game started", Toast.LENGTH_SHORT).show();
                         Log.d(TAG, "started called");
                         StaticUser.staticUser.TotalGames = String.valueOf(Integer.parseInt(StaticUser.staticUser.TotalGames) + 1);
+                        firestoreUtil.updateStats(StaticUser.staticUser);
                         rollDiceButtonEnabled = true;
                         lostRound = false;
                         numberOfDice = Room.StartNumberOfDice;
