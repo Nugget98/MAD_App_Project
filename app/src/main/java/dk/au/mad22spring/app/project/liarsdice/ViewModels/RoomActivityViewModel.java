@@ -91,6 +91,8 @@ public class RoomActivityViewModel extends ViewModel {
                         Log.d("STARTLOG", "started called");
                         StaticUser.staticUser.TotalGames = String.valueOf(Integer.parseInt(StaticUser.staticUser.TotalGames) + 1);
                         rollDiceButtonEnabled = true;
+                        lostRound = false;
+                        numberOfDice = Room.StartNumberOfDice;
                         //add one game to the player in the database
                         break;
                     case WaitingForPlayers:
@@ -151,8 +153,6 @@ public class RoomActivityViewModel extends ViewModel {
     }
 
     public void startGame() {
-        lostRound = false;
-        numberOfDice = Room.StartNumberOfDice;
         realtimeDatabaseUtil.resetNumberOfDiceInGame();
     }
 
