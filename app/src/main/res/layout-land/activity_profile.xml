@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activities.ProfileActivity">
+
+    <TextView
+        android:id="@+id/txtProfileHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/ProfileHeader"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txtDisplayname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="60dp"
+        android:text="@string/ProfileDisplayName"
+        app:layout_constraintEnd_toStartOf="@+id/txtProfileHeader"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtProfileHeader" />
+
+    <TextView
+        android:id="@+id/txtProfileWins"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/ProfileWins"
+        app:layout_constraintStart_toStartOf="@+id/txtDisplayname"
+        app:layout_constraintTop_toBottomOf="@+id/txtDisplayname" />
+
+    <TextView
+        android:id="@+id/txtProfileLoses"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/ProfileLoses"
+        app:layout_constraintStart_toStartOf="@+id/txtProfileWins"
+        app:layout_constraintTop_toBottomOf="@+id/txtProfileWins" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/ProfileTotalGames"
+        app:layout_constraintStart_toStartOf="@+id/txtProfileLoses"
+        app:layout_constraintTop_toBottomOf="@+id/txtProfileLoses" />
+
+    <EditText
+        android:id="@+id/editTextUsername"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="16dp"
+        android:ems="10"
+        android:hint="@string/ProfileHelperText"
+        android:inputType="textPersonName"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/txtDisplayname"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/txtProfileHeader"
+        app:layout_constraintTop_toTopOf="@+id/txtDisplayname" />
+
+    <TextView
+        android:id="@+id/txtDisplayWins"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/WinsValue"
+        app:layout_constraintBottom_toBottomOf="@+id/txtProfileWins"
+        app:layout_constraintStart_toStartOf="@+id/editTextUsername" />
+
+    <TextView
+        android:id="@+id/txtDisplayLoses"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/LosesValue"
+        app:layout_constraintBottom_toBottomOf="@+id/txtProfileLoses"
+        app:layout_constraintStart_toStartOf="@+id/txtDisplayWins" />
+
+    <TextView
+        android:id="@+id/txtDisplayTotalGames"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/TotalGamesValue"
+        app:layout_constraintBottom_toBottomOf="@+id/textView5"
+        app:layout_constraintStart_toStartOf="@+id/txtDisplayLoses"
+        app:layout_constraintTop_toBottomOf="@+id/txtDisplayLoses" />
+
+    <Button
+        android:id="@+id/btnSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/btnSave"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnCancel"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
+    <Button
+        android:id="@+id/btnCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/btnCancel"
+        app:layout_constraintBottom_toBottomOf="@+id/btnSave"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btnSave"
+        app:layout_constraintTop_toTopOf="@+id/btnSave" />
+</androidx.constraintlayout.widget.ConstraintLayout>
