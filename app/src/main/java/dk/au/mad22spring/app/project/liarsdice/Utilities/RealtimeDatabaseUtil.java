@@ -91,7 +91,7 @@ public class RealtimeDatabaseUtil {
     public void playerLostRound() {
         room.getValue().setCurrentGameState(Room.GameState.ShakeTheDice);
         int numberOfPlayersLeft = room.getValue().getPlayersLeftInGame();
-        int dice = room.getValue().getDice() - numberOfPlayersLeft - 1;
+        int dice = room.getValue().getDice() - numberOfPlayersLeft + 1;
         room.getValue().setDice(dice);
 
         roomRef.setValue(room.getValue());
