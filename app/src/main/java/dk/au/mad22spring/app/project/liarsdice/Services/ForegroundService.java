@@ -11,8 +11,6 @@ import android.os.IBinder;
 import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
-import androidx.core.content.ContextCompat;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -27,7 +25,6 @@ public class ForegroundService extends Service {
 
     ExecutorService execService;
     boolean started = false;
-    int count;
 
     public ForegroundService() {
     }
@@ -35,7 +32,6 @@ public class ForegroundService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        count = 0;
     }
 
     @Override
@@ -75,18 +71,34 @@ public class ForegroundService extends Service {
         execService.submit(new Runnable() {
             @Override
             public void run() {
-                count++;
-                Log.d(TAG, "Count: " + count);
                 try {
-                    Thread.sleep(1000);
+                    updateNotification();
+                    Thread.sleep(86400000); //Get notification once each day
                 } catch (InterruptedException e) {
-                    Log.e(TAG, "run: ERROR", e);
+                    Log.e(TAG, "run: ERROR running recursive work", e);
                 }
                 if(started) {
                     doRecursiveWork();
                 }
             }
         });
+    }
+
+    private Notification buildDrinkNotification() {
+
+        Notification notification = new NotificationCompat.Builder(this, SERVICE_CHANNEL)
+                .setContentTitle("Liar's Dice")
+                .setContentText("Remember to play a game of dice")
+                .setSmallIcon(R.mipmap.ic_launcher_raffle_cup_foreground)
+                .build();
+        return notification;
+    }
+
+    //Inspired from https://stackoverflow.com/a/20142620
+    private void updateNotification() {
+        Notification notification = buildDrinkNotification();
+        NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.notify(NOTIFICATION_ID, notification);
     }
 
     @Override
