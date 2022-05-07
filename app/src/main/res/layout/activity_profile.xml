@@ -23,6 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
+        android:layout_marginEnd="60dp"
         android:text="@string/ProfileDisplayName"
         app:layout_constraintEnd_toStartOf="@+id/txtProfileHeader"
         app:layout_constraintTop_toBottomOf="@+id/txtProfileHeader" />
@@ -56,14 +57,16 @@
 
     <EditText
         android:id="@+id/editTextUsername"
-        android:layout_width="151dp"
+        android:layout_width="0dp"
         android:layout_height="48dp"
+        android:layout_marginEnd="16dp"
         android:ems="10"
         android:hint="@string/ProfileHelperText"
         android:inputType="textPersonName"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@+id/txtDisplayname"
-        app:layout_constraintStart_toEndOf="@+id/txtProfileHeader"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/txtProfileHeader"
         app:layout_constraintTop_toTopOf="@+id/txtDisplayname" />
 
     <TextView
@@ -96,6 +99,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="308dp"
         android:text="@string/btnSave"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnCancel"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
