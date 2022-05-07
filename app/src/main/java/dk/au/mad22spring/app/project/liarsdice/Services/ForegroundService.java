@@ -17,6 +17,7 @@ import java.util.concurrent.Executors;
 
 import dk.au.mad22spring.app.project.liarsdice.R;
 
+//Inspired by the MAD lesson about notifications
 public class ForegroundService extends Service {
 
     private static final String TAG = "ForegroundService";
