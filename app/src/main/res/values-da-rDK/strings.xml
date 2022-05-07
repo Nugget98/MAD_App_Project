@@ -26,4 +26,7 @@
     <string name="ProfileHelperText">Brugernavn</string>
     <string name="btnSave">Gem</string>
     <string name="btnCancel">Afbryd</string>
+    <string name="WinsValue">VundetVærdi</string>
+    <string name="LosesValue">TabteVærdi</string>
+    <string name="TotalGamesValue">SamletKampeVærdi</string>
 </resources>
