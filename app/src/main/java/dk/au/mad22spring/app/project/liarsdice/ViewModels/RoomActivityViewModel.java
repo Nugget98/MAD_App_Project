@@ -90,7 +90,6 @@ public class RoomActivityViewModel extends ViewModel {
                         Toast.makeText(LiarsDiceApplication.getAppContext(), "Game started", Toast.LENGTH_SHORT).show();
                         Log.d("STARTLOG", "started called");
                         StaticUser.staticUser.TotalGames = String.valueOf(Integer.parseInt(StaticUser.staticUser.TotalGames) + 1);
-                        resetGame();
                         rollDiceButtonEnabled = true;
                         //add one game to the player in the database
                         break;
@@ -151,14 +150,10 @@ public class RoomActivityViewModel extends ViewModel {
         }
     }
 
-    private void resetGame() {
+    public void startGame() {
         lostRound = false;
         numberOfDice = Room.StartNumberOfDice;
         realtimeDatabaseUtil.resetNumberOfDiceInGame();
-    }
-
-    public void startGame() {
-        realtimeDatabaseUtil.setGameState(Room.GameState.Started);
     }
 
     public void startNextGame() {

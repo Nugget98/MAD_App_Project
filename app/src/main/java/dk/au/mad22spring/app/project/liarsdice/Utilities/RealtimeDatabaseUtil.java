@@ -83,6 +83,7 @@ public class RealtimeDatabaseUtil {
         room.getValue().setCurrentGameState(Room.GameState.Started);
         room.getValue().setDice(room.getValue().getPlayers() * Room.StartNumberOfDice);
         room.getValue().setPlayersLeftInGame(room.getValue().getPlayers());
+        room.getValue().setCurrentGameState(Room.GameState.Started);
         roomRef.setValue(room.getValue());
     }
 
