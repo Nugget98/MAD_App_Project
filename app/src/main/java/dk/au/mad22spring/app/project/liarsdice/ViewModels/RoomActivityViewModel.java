@@ -42,6 +42,8 @@ public class RoomActivityViewModel extends ViewModel {
 
     private ArrayList<Integer> diceRolled = new ArrayList<>();
 
+    private int checkRoomNumber = 0;
+
     public RoomActivityViewModel() {
         realtimeDatabaseUtil = new RealtimeDatabaseUtil();
         startButtonVisible = View.VISIBLE;
@@ -49,6 +51,7 @@ public class RoomActivityViewModel extends ViewModel {
     }
 
     public RoomActivityViewModel(int roomNumber) {
+        checkRoomNumber = roomNumber;
         realtimeDatabaseUtil = new RealtimeDatabaseUtil(roomNumber);
         startButtonVisible = View.INVISIBLE;
         handleGameState();
@@ -94,7 +97,9 @@ public class RoomActivityViewModel extends ViewModel {
                     case WaitingForPlayers:
                         loseRoundButtonEnabled = false;
                         rollDiceButtonEnabled = false;
-                        startButtonVisible = View.VISIBLE;
+                        if(checkRoomNumber == 0) {
+                            startButtonVisible = View.VISIBLE;
+                        }
                         break;
                 }
 
