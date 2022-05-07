@@ -88,12 +88,11 @@ public class RoomActivityViewModel extends ViewModel {
                         break;
                     case Started:
                         Toast.makeText(LiarsDiceApplication.getAppContext(), "Game started", Toast.LENGTH_SHORT).show();
-                        Log.d("STARTLOG", "started called");
+                        Log.d(TAG, "started called");
                         StaticUser.staticUser.TotalGames = String.valueOf(Integer.parseInt(StaticUser.staticUser.TotalGames) + 1);
                         rollDiceButtonEnabled = true;
                         lostRound = false;
                         numberOfDice = Room.StartNumberOfDice;
-                        //add one game to the player in the database
                         break;
                     case WaitingForPlayers:
                         loseRoundButtonEnabled = false;
