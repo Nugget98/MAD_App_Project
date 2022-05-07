@@ -81,7 +81,7 @@ public class RoomActivityViewModel extends ViewModel {
                         break;
                     case Finish:
                         loseRoundButtonEnabled = false;
-                        rollDiceButtonEnabled = false;
+                        rollDiceButtonEnabled = true;
                         break;
                     case Started:
                         Toast.makeText(LiarsDiceApplication.getAppContext(), "Game started", Toast.LENGTH_SHORT).show();
