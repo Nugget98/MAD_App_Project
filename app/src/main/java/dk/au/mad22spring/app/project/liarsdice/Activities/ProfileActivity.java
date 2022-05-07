@@ -21,7 +21,7 @@ public class ProfileActivity extends AppCompatActivity {
     private static final String TAG = "FirestoreUtil: ";
 
     private TextView txtUsername, txtWins, txtLoses, txtTotalGames;
-    private Button btnSave, btnCancel;
+    private Button btnSave, btnCancel, btnGenerate;
 
     private FirestoreUtil firestoreUtil;
     private GoogleAuthenticationUtil googleAuthenticationUtil;
@@ -66,6 +66,7 @@ public class ProfileActivity extends AppCompatActivity {
         txtUsername = findViewById(R.id.editTextUsername);
         btnSave = findViewById(R.id.btnSave);
         btnCancel = findViewById(R.id.btnCancel);
+        btnGenerate = findViewById(R.id.btnGenerate);
 
         btnSave.setOnClickListener(view -> save());
         btnCancel.setOnClickListener(view -> cancel());
@@ -75,6 +76,8 @@ public class ProfileActivity extends AppCompatActivity {
 
         viewModel = new ViewModelProvider(this).get(ProfileActivityViewModel.class);
         viewModel.getUser();
+
+        btnGenerate.setOnClickListener(view -> viewModel.getRandomName(txtUsername));
     }
 
     private void save() {
