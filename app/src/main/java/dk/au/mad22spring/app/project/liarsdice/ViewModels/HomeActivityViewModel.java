@@ -32,7 +32,12 @@ public class HomeActivityViewModel extends ViewModel {
                     Log.d("HOME", "User exist: true");
                 } else {
                     Log.d("HOME", "User exist: false");
-                    firestoreUtil.updateUser(googleAuthenticationUtil.getSignedInUserUID(),googleAuthenticationUtil.getSignedInUserName(),0,0);
+                    User tempUser = new User();
+                    tempUser.UUID = googleAuthenticationUtil.getSignedInUserUID();
+                    tempUser.Displayname = googleAuthenticationUtil.getSignedInUserName();
+                    tempUser.Loses = String.valueOf(0);
+                    tempUser.TotalGames = String.valueOf(0);
+                    firestoreUtil.updateUser(tempUser);
                 }
             }
         };

@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import dk.au.mad22spring.app.project.liarsdice.Models.StaticUser;
+import dk.au.mad22spring.app.project.liarsdice.Models.User;
 import dk.au.mad22spring.app.project.liarsdice.R;
 import dk.au.mad22spring.app.project.liarsdice.Utilities.FirestoreUtil;
 import dk.au.mad22spring.app.project.liarsdice.Utilities.GoogleAuthenticationUtil;
@@ -77,7 +78,12 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void save() {
-        firestoreUtil.updateUser(googleAuthenticationUtil.getSignedInUserUID(), viewModel.getDisplayName(), Integer.parseInt(txtWins.getText().toString()), Integer.parseInt(txtLoses.getText().toString()));
+        User user = new User();
+        user.UUID = googleAuthenticationUtil.getSignedInUserUID();
+        user.Displayname = viewModel.getDisplayName();
+        user.Loses = txtLoses.getText().toString();
+        user.TotalGames = txtTotalGames.getText().toString();
+        firestoreUtil.updateUser(user);
         finish();
     }
 

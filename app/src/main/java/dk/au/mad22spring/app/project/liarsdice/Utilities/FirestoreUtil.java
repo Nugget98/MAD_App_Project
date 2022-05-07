@@ -42,19 +42,20 @@ public class FirestoreUtil {
         return user;
     }
 
-    public void updateUser(String _uuid, String _displayName, Number _totalGames, Number _loses) {
+    public void updateUser(User inputUser) {
         Map<String, Object> user = new HashMap<>();
-        user.put("UUID", _uuid);
-        user.put("Displayname", _displayName);
-        user.put("Loses", _loses);
-        user.put("TotalGames", _totalGames);
+        user.put("UUID", inputUser.UUID);
+        user.put("Displayname", inputUser.Displayname);
+        user.put("Loses", inputUser.Loses);
+        user.put("TotalGames", inputUser.TotalGames);
         db.collection("users")
-                .document(_uuid)
+                .document(inputUser.UUID)
                 .set(user, SetOptions.merge())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        Log.d(TAG, "DocumentSnapshot added with ID: " + _uuid);
+                        Log.d(TAG, "DocumentSnapshot added with ID: " + inputUser.UUID);
+                        StaticUser.staticUser = inputUser;
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
