@@ -144,7 +144,7 @@ public class RoomActivity extends AppCompatActivity {
     }
 
     private void startGame() {
-        viewModel.resetGame();
+        viewModel.startGame();
         viewModel.setStartButtonVisible(View.INVISIBLE);
         startGameButton.setVisibility(View.INVISIBLE);
     }

@@ -28,7 +28,6 @@ public class RealtimeDatabaseUtil {
     private Boolean newGame;
     private Boolean deletedRoom = false;
     private final MutableLiveData<Room> room = new MutableLiveData<>();
-    private FirestoreUtil firestoreUtil;
 
     public RealtimeDatabaseUtil() {
         int roomNumber = generateRandomRoomNumber();
@@ -39,8 +38,7 @@ public class RealtimeDatabaseUtil {
         newRoom.setDice(6);
         newRoom.setPlayers(1);
 
-        //GET real player name
-        newRoom.addOneToPlayersInRoom("" + StaticUser.staticUser.Displayname);
+        newRoom.addOneToPlayersInRoom(StaticUser.staticUser.Displayname);
 
         roomRef.setValue(newRoom);
 
@@ -66,8 +64,7 @@ public class RealtimeDatabaseUtil {
         int dice = room.getValue().getDice();
         room.getValue().setDice(dice += Room.StartNumberOfDice);
 
-        //GET real player name
-        room.getValue().addOneToPlayersInRoom("" + StaticUser.staticUser.Displayname);
+        room.getValue().addOneToPlayersInRoom(StaticUser.staticUser.Displayname);
     }
 
     public void onePlayerFinish() {
@@ -82,11 +79,9 @@ public class RealtimeDatabaseUtil {
         roomRef.setValue(room.getValue());
     }
 
-    public void resetGame() {
+    public void resetNumberOfDiceInGame() {
         room.getValue().setCurrentGameState(Room.GameState.Started);
         room.getValue().setDice(room.getValue().getPlayers() * Room.StartNumberOfDice);
-        room.getValue().setPlayersLeftInGame(room.getValue().getPlayers());
-        room.getValue().setCurrentGameState(Room.GameState.Started);
         roomRef.setValue(room.getValue());
     }
 
@@ -106,8 +101,7 @@ public class RealtimeDatabaseUtil {
         int dice = room.getValue().getDice() - numberOfDice;
         room.getValue().setDice(dice);
 
-        //The real name
-        room.getValue().removePlayer("Hans");
+        room.getValue().removePlayer(StaticUser.staticUser.Displayname);
 
         roomRef.setValue(room.getValue());
     }

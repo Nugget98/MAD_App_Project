@@ -68,7 +68,7 @@ public class RoomActivityViewModel extends ViewModel {
                             FirestoreUtil firestoreUtil = FirestoreUtil.getFirestore();
                             StaticUser.staticUser.Loses = String.valueOf(Integer.parseInt(StaticUser.staticUser.Loses) + 1);
                             firestoreUtil.updateStats(StaticUser.staticUser);
-                            resetGame();
+                            startNextGame();
                         } else {
                             rollDiceButtonEnabled = true;
                             loseRoundButtonEnabled = false;
@@ -87,12 +87,14 @@ public class RoomActivityViewModel extends ViewModel {
                         Toast.makeText(LiarsDiceApplication.getAppContext(), "Game started", Toast.LENGTH_SHORT).show();
                         Log.d("STARTLOG", "started called");
                         StaticUser.staticUser.TotalGames = String.valueOf(Integer.parseInt(StaticUser.staticUser.TotalGames) + 1);
+                        resetGame();
                         rollDiceButtonEnabled = true;
                         //add one game to the player in the database
                         break;
                     case WaitingForPlayers:
                         loseRoundButtonEnabled = false;
                         rollDiceButtonEnabled = false;
+                        startButtonVisible = View.VISIBLE;
                         break;
                 }
 
@@ -144,10 +146,18 @@ public class RoomActivityViewModel extends ViewModel {
         }
     }
 
-    public void resetGame() {
+    private void resetGame() {
         lostRound = false;
         numberOfDice = Room.StartNumberOfDice;
-        realtimeDatabaseUtil.resetGame();
+        realtimeDatabaseUtil.resetNumberOfDiceInGame();
+    }
+
+    public void startGame() {
+        realtimeDatabaseUtil.setGameState(Room.GameState.Started);
+    }
+
+    public void startNextGame() {
+        realtimeDatabaseUtil.setGameState(Room.GameState.WaitingForPlayers);
     }
 
     public int getNumberOfDice() {
