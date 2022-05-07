@@ -13,6 +13,9 @@
         android:roundIcon="@mipmap/ic_launcher_raffle_cup_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.LiarsDice">
+        <activity
+            android:name=".Activities.ProfileActivity"
+            android:exported="false"/>
         <service
             android:name=".Services.ForegroundService"
             android:enabled="true"

@@ -14,7 +14,9 @@ import java.util.Random;
 
 import dk.au.mad22spring.app.project.liarsdice.LiarsDiceApplication;
 import dk.au.mad22spring.app.project.liarsdice.Models.Room;
+import dk.au.mad22spring.app.project.liarsdice.Models.StaticUser;
 import dk.au.mad22spring.app.project.liarsdice.R;
+import dk.au.mad22spring.app.project.liarsdice.Utilities.FirestoreUtil;
 import dk.au.mad22spring.app.project.liarsdice.Utilities.RealtimeDatabaseUtil;
 
 public class RoomActivityViewModel extends ViewModel {
@@ -40,6 +42,8 @@ public class RoomActivityViewModel extends ViewModel {
 
     private ArrayList<Integer> diceRolled = new ArrayList<>();
 
+    private int checkRoomNumber = 0;
+
     public RoomActivityViewModel() {
         realtimeDatabaseUtil = new RealtimeDatabaseUtil();
         startButtonVisible = View.VISIBLE;
@@ -47,6 +51,7 @@ public class RoomActivityViewModel extends ViewModel {
     }
 
     public RoomActivityViewModel(int roomNumber) {
+        checkRoomNumber = roomNumber;
         realtimeDatabaseUtil = new RealtimeDatabaseUtil(roomNumber);
         startButtonVisible = View.INVISIBLE;
         handleGameState();
@@ -63,8 +68,10 @@ public class RoomActivityViewModel extends ViewModel {
                     case ShakeTheDice:
                         if (room.getDice() == numberOfDice) {
                             Toast.makeText(LiarsDiceApplication.getAppContext(), "You lost the game", Toast.LENGTH_SHORT).show();
-                            //SAVE LOST GAME IN DATABASE
-                            startGame();
+                            FirestoreUtil firestoreUtil = FirestoreUtil.getFirestore();
+                            StaticUser.staticUser.Loses = String.valueOf(Integer.parseInt(StaticUser.staticUser.Loses) + 1);
+                            firestoreUtil.updateStats(StaticUser.staticUser);
+                            startNextGame();
                         } else {
                             rollDiceButtonEnabled = true;
                             loseRoundButtonEnabled = false;
@@ -75,18 +82,27 @@ public class RoomActivityViewModel extends ViewModel {
                             lostRound = false;
                         }
                         break;
+                    case Finish:
+                        loseRoundButtonEnabled = false;
+                        rollDiceButtonEnabled = true;
+                        break;
                     case Started:
                         Toast.makeText(LiarsDiceApplication.getAppContext(), "Game started", Toast.LENGTH_SHORT).show();
                         Log.d(TAG, "started called");
-                        resetGame();
+                        StaticUser.staticUser.TotalGames = String.valueOf(Integer.parseInt(StaticUser.staticUser.TotalGames) + 1);
                         rollDiceButtonEnabled = true;
-                        //add one game to the player in the database
+                        lostRound = false;
+                        numberOfDice = Room.StartNumberOfDice;
                         break;
                     case WaitingForPlayers:
                         loseRoundButtonEnabled = false;
                         rollDiceButtonEnabled = false;
+                        if(checkRoomNumber == 0) {
+                            startButtonVisible = View.VISIBLE;
+                        }
                         break;
                 }
+
                 newRoom.setValue(currentRoom);
             }
         };
@@ -130,12 +146,17 @@ public class RoomActivityViewModel extends ViewModel {
 
     private void loseOneDice() {
         numberOfDice--;
+        if(numberOfDice == 0) {
+            realtimeDatabaseUtil.onePlayerFinish();
+        }
     }
 
-    private void resetGame() {
-        lostRound = false;
-        numberOfDice = Room.StartNumberOfDice;
+    public void startGame() {
         realtimeDatabaseUtil.resetNumberOfDiceInGame();
+    }
+
+    public void startNextGame() {
+        realtimeDatabaseUtil.setGameState(Room.GameState.WaitingForPlayers);
     }
 
     public int getNumberOfDice() {
@@ -149,10 +170,6 @@ public class RoomActivityViewModel extends ViewModel {
     public void playerLostRound() {
         lostRound = true;
         realtimeDatabaseUtil.playerLostRound();
-    }
-
-    public void startGame() {
-        realtimeDatabaseUtil.setGameState(Room.GameState.Started);
     }
 
     public ArrayList<Integer> getDiceRolled() {
