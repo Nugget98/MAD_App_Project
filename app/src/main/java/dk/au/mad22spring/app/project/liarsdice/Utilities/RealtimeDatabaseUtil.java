@@ -17,6 +17,7 @@ import java.util.Random;
 
 import dk.au.mad22spring.app.project.liarsdice.LiarsDiceApplication;
 import dk.au.mad22spring.app.project.liarsdice.Models.Room;
+import dk.au.mad22spring.app.project.liarsdice.Models.StaticUser;
 
 public class RealtimeDatabaseUtil {
 
@@ -27,6 +28,7 @@ public class RealtimeDatabaseUtil {
     private Boolean newGame;
     private Boolean deletedRoom = false;
     private final MutableLiveData<Room> room = new MutableLiveData<>();
+    private FirestoreUtil firestoreUtil;
 
     public RealtimeDatabaseUtil() {
         int roomNumber = generateRandomRoomNumber();
@@ -38,7 +40,8 @@ public class RealtimeDatabaseUtil {
         newRoom.setPlayers(1);
 
         //GET real player name
-        newRoom.addOneToPlayersInRoom("Bob");
+
+        newRoom.addOneToPlayersInRoom("" + StaticUser.staticUser.Displayname);
 
         roomRef.setValue(newRoom);
 
@@ -65,7 +68,7 @@ public class RealtimeDatabaseUtil {
         room.getValue().setDice(dice += Room.StartNumberOfDice);
 
         //GET real player name
-        room.getValue().addOneToPlayersInRoom("Hans");
+        room.getValue().addOneToPlayersInRoom("" + StaticUser.staticUser.Displayname);
     }
 
     public void setGameState(Room.GameState gameState) {

@@ -14,7 +14,9 @@ import java.util.Random;
 
 import dk.au.mad22spring.app.project.liarsdice.LiarsDiceApplication;
 import dk.au.mad22spring.app.project.liarsdice.Models.Room;
+import dk.au.mad22spring.app.project.liarsdice.Models.StaticUser;
 import dk.au.mad22spring.app.project.liarsdice.R;
+import dk.au.mad22spring.app.project.liarsdice.Utilities.FirestoreUtil;
 import dk.au.mad22spring.app.project.liarsdice.Utilities.RealtimeDatabaseUtil;
 
 public class RoomActivityViewModel extends ViewModel {
@@ -63,7 +65,9 @@ public class RoomActivityViewModel extends ViewModel {
                     case ShakeTheDice:
                         if (room.getDice() == numberOfDice) {
                             Toast.makeText(LiarsDiceApplication.getAppContext(), "You lost the game", Toast.LENGTH_SHORT).show();
-                            //SAVE LOST GAME IN DATABASE
+                            FirestoreUtil firestoreUtil = FirestoreUtil.getFirestore();
+                            StaticUser.staticUser.Loses = String.valueOf(Integer.parseInt(StaticUser.staticUser.Loses) + 1);
+                            firestoreUtil.updateStats(StaticUser.staticUser);
                             startGame();
                         } else {
                             rollDiceButtonEnabled = true;
@@ -77,7 +81,8 @@ public class RoomActivityViewModel extends ViewModel {
                         break;
                     case Started:
                         Toast.makeText(LiarsDiceApplication.getAppContext(), "Game started", Toast.LENGTH_SHORT).show();
-                        Log.d(TAG, "started called");
+                        Log.d("STARTLOG", "started called");
+                        StaticUser.staticUser.TotalGames = String.valueOf(Integer.parseInt(StaticUser.staticUser.TotalGames) + 1);
                         resetGame();
                         rollDiceButtonEnabled = true;
                         //add one game to the player in the database

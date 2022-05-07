@@ -61,6 +61,7 @@
         android:ems="10"
         android:hint="@string/ProfileHelperText"
         android:inputType="textPersonName"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@+id/txtDisplayname"
         app:layout_constraintStart_toEndOf="@+id/txtProfileHeader"
         app:layout_constraintTop_toTopOf="@+id/txtDisplayname" />
