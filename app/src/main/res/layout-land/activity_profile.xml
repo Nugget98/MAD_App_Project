@@ -6,6 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".Activities.ProfileActivity">
 
+    <Button
+        android:id="@+id/btnGenerate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="@string/btnGenerateName"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnCancel"
+        app:layout_constraintHorizontal_bias="0.51"
+        app:layout_constraintStart_toEndOf="@+id/btnSave" />
+
     <TextView
         android:id="@+id/txtProfileHeader"
         android:layout_width="wrap_content"
@@ -91,29 +102,30 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/TotalGamesValue"
-        app:layout_constraintBottom_toBottomOf="@+id/textView5"
+        app:layout_constraintBottom_toTopOf="@+id/btnGenerate"
         app:layout_constraintStart_toStartOf="@+id/txtDisplayLoses"
-        app:layout_constraintTop_toBottomOf="@+id/txtDisplayLoses" />
+        app:layout_constraintTop_toTopOf="@+id/textView5"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/btnSave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
         android:text="@string/btnSave"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnCancel"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintBottom_toBottomOf="@+id/btnGenerate"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+        app:layout_constraintTop_toTopOf="@+id/btnGenerate"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/btnCancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="40dp"
         android:text="@string/btnCancel"
-        app:layout_constraintBottom_toBottomOf="@+id/btnSave"
+        app:layout_constraintBottom_toBottomOf="@+id/btnGenerate"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/btnSave"
-        app:layout_constraintTop_toTopOf="@+id/btnSave" />
+        app:layout_constraintTop_toTopOf="@+id/btnGenerate"
+        app:layout_constraintVertical_bias="0.0" />
 </androidx.constraintlayout.widget.ConstraintLayout>
