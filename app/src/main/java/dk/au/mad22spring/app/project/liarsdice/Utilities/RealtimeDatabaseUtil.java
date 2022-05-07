@@ -73,6 +73,7 @@ public class RealtimeDatabaseUtil {
     public void onePlayerFinish() {
         int players = room.getValue().getPlayersLeftInGame() - 1;
         room.getValue().setPlayersLeftInGame(players);
+        room.getValue().setCurrentGameState(Room.GameState.Finish);
         roomRef.setValue(room.getValue());
     }
 

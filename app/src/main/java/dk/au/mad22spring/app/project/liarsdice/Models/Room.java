@@ -10,7 +10,8 @@ public class Room {
     public enum GameState {
         WaitingForPlayers,
         ShakeTheDice,
-        Started
+        Started,
+        Finish
     }
 
     private int RoomNumber;

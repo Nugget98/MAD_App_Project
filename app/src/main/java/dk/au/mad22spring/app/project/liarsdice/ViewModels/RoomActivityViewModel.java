@@ -74,15 +74,14 @@ public class RoomActivityViewModel extends ViewModel {
                             loseRoundButtonEnabled = false;
                             if (!lostRound) {
                                 loseOneDice();
-                                if(numberOfDice == 0) {
-                                    realtimeDatabaseUtil.onePlayerFinish();
-                                    loseRoundButtonEnabled = false;
-                                    rollDiceButtonEnabled = false;
-                                }
                                 Log.d(TAG, String.valueOf(numberOfDice));
                             }
                             lostRound = false;
                         }
+                        break;
+                    case Finish:
+                        loseRoundButtonEnabled = false;
+                        rollDiceButtonEnabled = false;
                         break;
                     case Started:
                         Toast.makeText(LiarsDiceApplication.getAppContext(), "Game started", Toast.LENGTH_SHORT).show();
@@ -141,6 +140,9 @@ public class RoomActivityViewModel extends ViewModel {
 
     private void loseOneDice() {
         numberOfDice--;
+        if(numberOfDice == 0) {
+            realtimeDatabaseUtil.onePlayerFinish();
+        }
     }
 
     private void resetGame() {
