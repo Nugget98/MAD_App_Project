@@ -74,6 +74,11 @@ public class RoomActivityViewModel extends ViewModel {
                             loseRoundButtonEnabled = false;
                             if (!lostRound) {
                                 loseOneDice();
+                                if(numberOfDice == 0) {
+                                    realtimeDatabaseUtil.onePlayerFinish();
+                                    loseRoundButtonEnabled = false;
+                                    rollDiceButtonEnabled = false;
+                                }
                                 Log.d(TAG, String.valueOf(numberOfDice));
                             }
                             lostRound = false;
@@ -91,12 +96,6 @@ public class RoomActivityViewModel extends ViewModel {
                         loseRoundButtonEnabled = false;
                         rollDiceButtonEnabled = false;
                         break;
-                }
-
-                if(numberOfDice == 0) {
-                    realtimeDatabaseUtil.onePlayerFinish();
-                    loseRoundButtonEnabled = false;
-                    rollDiceButtonEnabled = false;
                 }
 
                 newRoom.setValue(currentRoom);
