@@ -25,6 +25,7 @@
     <string name="StartGame">Start Game</string>
     <string name="LoginHeaderText">Welcome to Liar\'s Dice</string>
     <string name="LoginText">Please login in order to play a game of Liar\'s Dice</string>
+    <string name="btnGenerateName">Generate Random Username</string>
     <string name="WinsValue">WinsValue</string>
     <string name="LosesValue">LosesValue</string>
     <string name="TotalGamesValue">TotalGamesValue</string>
