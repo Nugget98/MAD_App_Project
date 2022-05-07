@@ -16,8 +16,17 @@ public class Room {
     private int RoomNumber;
     private int Players = 0;
     private int Dice = 0;
+    private int PlayersLeftInGame = 0;
     private GameState CurrentGameState = GameState.WaitingForPlayers;
     private ArrayList<String> playersInRoom = new ArrayList<>();
+
+    public void setPlayersLeftInGame(int playersLeftInGame) {
+        PlayersLeftInGame = playersLeftInGame;
+    }
+
+    public int getPlayersLeftInGame() {
+        return PlayersLeftInGame;
+    }
 
     public ArrayList<String> getPlayersInRoom() {
         return playersInRoom;

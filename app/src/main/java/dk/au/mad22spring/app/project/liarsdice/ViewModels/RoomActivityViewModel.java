@@ -92,6 +92,13 @@ public class RoomActivityViewModel extends ViewModel {
                         rollDiceButtonEnabled = false;
                         break;
                 }
+
+                if(numberOfDice == 0) {
+                    realtimeDatabaseUtil.onePlayerFinish();
+                    loseRoundButtonEnabled = false;
+                    rollDiceButtonEnabled = false;
+                }
+
                 newRoom.setValue(currentRoom);
             }
         };

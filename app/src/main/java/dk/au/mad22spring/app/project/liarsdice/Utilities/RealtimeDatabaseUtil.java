@@ -40,7 +40,6 @@ public class RealtimeDatabaseUtil {
         newRoom.setPlayers(1);
 
         //GET real player name
-
         newRoom.addOneToPlayersInRoom("" + StaticUser.staticUser.Displayname);
 
         roomRef.setValue(newRoom);
@@ -71,6 +70,12 @@ public class RealtimeDatabaseUtil {
         room.getValue().addOneToPlayersInRoom("" + StaticUser.staticUser.Displayname);
     }
 
+    public void onePlayerFinish() {
+        int players = room.getValue().getPlayersLeftInGame() - 1;
+        room.getValue().setPlayersLeftInGame(players);
+        roomRef.setValue(room.getValue());
+    }
+
     public void setGameState(Room.GameState gameState) {
         room.getValue().setCurrentGameState(gameState);
         roomRef.setValue(room.getValue());
@@ -79,14 +84,15 @@ public class RealtimeDatabaseUtil {
     public void resetNumberOfDiceInGame() {
         room.getValue().setCurrentGameState(Room.GameState.Started);
         room.getValue().setDice(room.getValue().getPlayers() * Room.StartNumberOfDice);
+        room.getValue().setPlayersLeftInGame(room.getValue().getPlayers());
         roomRef.setValue(room.getValue());
     }
 
     public void playerLostRound() {
         room.getValue().setCurrentGameState(Room.GameState.ShakeTheDice);
-        int numberOfPlayers = room.getValue().getPlayers();
-        int dice = room.getValue().getDice();
-        room.getValue().setDice(dice -= (numberOfPlayers - 1));
+        int numberOfPlayersLeft = room.getValue().getPlayersLeftInGame();
+        int dice = room.getValue().getDice() - numberOfPlayersLeft - 1;
+        room.getValue().setDice(dice);
 
         roomRef.setValue(room.getValue());
     }
